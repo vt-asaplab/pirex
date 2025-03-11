@@ -17,18 +17,18 @@ use bitvec::prelude::*;
 
 
 
-pub const SERVER_ADDRESS: &str = "128.173.236.241:8111";
+pub const SERVER_ADDRESS: &str = "127.0.0.1:8111";
 
-pub const BUNIT: usize = 1024; // one block has __ chunks
+pub const BUNIT: usize = 64; // one block has __ chunks
 pub const USIZE: usize = 64; // one chunk has 64 bytes
 pub const BSIZE: usize = BUNIT * USIZE; // block size
 
-pub const NSIZE: usize = 16777216; // dbase size
-pub const LSIZE: usize = 12; // logarithm sqrt
+pub const NSIZE: usize = 4194304; // dbase size
+pub const LSIZE: usize = 11; // logarithm sqrt
 pub const SSIZE: usize = NSIZE >> LSIZE; // sqrt
-pub const HSIZE: usize = SSIZE * 24; // hint size
+pub const HSIZE: usize = SSIZE * 22; // hint size
 
-pub const FRONT: u8 = 0b1111;
+pub const FRONT: u8 = 0b111;
 pub const BFLAG: INDX = (SSIZE - 1) as INDX;
 
 pub const KSIZE: usize = 0016; // one keyset has __ bytes

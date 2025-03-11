@@ -84,7 +84,7 @@ fn db_read()
 }
 
 
-fn init_hint()
+fn init_hint_remote()
 {
     let mut pfile = OpenOptions::new()
         .read(true)
@@ -254,5 +254,8 @@ fn test_external_elgamal()
 
 fn main()
 {
-    init_wdet()
+    init_data();
+    init_hint_local();
+    init_wdet();
+    init_hint_remote();
 }

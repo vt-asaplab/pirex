@@ -33,67 +33,6 @@ extern "C" {
     }
 }
 
-
-extern "C"
-{
-    void thread_decrypt()
-    {
-
-    }
-
-
-    void thread_encrypt()
-    {
-
-    }
-
-
-    void set_input_encryption(uint8_t *input, size_t inputlen)
-    {
-
-    }
-
-    void set_input_decryption(uint8_t *input, size_t inputlen)
-    {
-
-    }
-
-
-    void get_output_encryption(uint8_t *input, size_t inputlen)
-    {
-
-    }
-
-    void get_output_decryption(uint8_t *input, size_t inputlen)
-    {
-
-    }
-
-
-    void load_table()
-    {
-
-    }
-
-
-    void free_table()
-    {
-
-    }
-
-
-    void set_key_and_bid(uint8_t *input, size_t inputlen, uint32_t bid)
-    {
-
-    }
-
-}
-
-
-
-
-
-
 #else
 
 typedef unsigned long long int TYPE_REGISTER;
@@ -140,6 +79,9 @@ extern "C" {
         }
     }
 }
+
+#endif
+
 
 
 #include <numeric>
@@ -493,6 +435,3 @@ void test()
 
     free(TABLE);
 }
-
-
-#endif

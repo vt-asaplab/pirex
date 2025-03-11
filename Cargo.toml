@@ -1,0 +1,88 @@
+[package]
+name = "PIR"
+version = "0.1.0"
+edition = "2018"
+
+
+build = "src/build.rs"
+
+[build-dependencies]
+cc = "1.0"
+
+[package.metadata]
+rustflags = ["--cfg aes_armv8", "-C target-feature=+avx512f"]
+
+[features]
+client = []
+
+[dependencies]
+aes = "0.8.3"
+bitvec = "1.0.1"
+memmap = "0.7"
+packed_simd = "0.3.9"
+rand = "0.8.5"
+secp256k1 = {version = "0.28.1", features = ["rand"]}
+
+[[bin]]
+name = "pirex_uread"
+path = "src/pirex_uread.rs"
+
+[[bin]]
+name = "pirex_uprep"
+path = "src/pirex_uprep.rs"
+
+[[bin]]
+name = "pirex_sread"
+path = "src/pirex_sread.rs"
+
+[[bin]]
+name = "pirex_sprep"
+path = "src/pirex_sprep.rs"
+
+[[bin]]
+name = "helper"
+path = "src/helper.rs"
+
+[[bin]]
+name = "pirexx_uread"
+path = "src/pirexx_uread.rs"
+
+[[bin]]
+name = "pirexx_uprep"
+path = "src/pirexx_uprep.rs"
+
+[[bin]]
+name = "pirexx_sread"
+path = "src/pirexx_sread.rs"
+
+[[bin]]
+name = "pirexx_sprep"
+path = "src/pirexx_sprep.rs"
+
+[[bin]]
+name = "_20_client"
+path = "src/_20_client.rs"
+
+[[bin]]
+name = "_20_server"
+path = "src/_20_server.rs"
+
+[[bin]]
+name = "_22_client"
+path = "src/_22_client.rs"
+
+[[bin]]
+name = "_22_server"
+path = "src/_22_server.rs"
+
+[[bin]]
+name = "elgamal"
+path = "src/elgamal.rs"
+
+[[bin]]
+name = "test_send"
+path = "src/test_send.rs"
+
+[[bin]]
+name = "test_recv"
+path = "src/test_recv.rs"

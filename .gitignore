@@ -1,0 +1,11 @@
+/target
+/data*
+/hint
+/kset
+/item
+/ppos
+/ehint
+/ekey
+/wdet
+/_*
+/utils/*.log

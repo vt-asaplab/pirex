@@ -12,7 +12,7 @@ The code can be run on any hardware.
 
 We have also configured server computation to be easily accelarated using `x86_64` SIMD instruction
 
-
+<br/><br/>
 
 ## DIRECTORY EXPLAIN
 

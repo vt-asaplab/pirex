@@ -23,12 +23,12 @@ pub const BUNIT: usize = 64; // one block has __ chunks
 pub const USIZE: usize = 64; // one chunk has 64 bytes
 pub const BSIZE: usize = BUNIT * USIZE; // block size
 
-pub const NSIZE: usize = 4194304; // dbase size
-pub const LSIZE: usize = 11; // logarithm sqrt
+pub const NSIZE: usize = 1048576; // dbase size
+pub const LSIZE: usize = 10; // logarithm sqrt
 pub const SSIZE: usize = NSIZE >> LSIZE; // sqrt
-pub const HSIZE: usize = SSIZE * 22; // hint size
+pub const HSIZE: usize = SSIZE * 20; // hint size
 
-pub const FRONT: u8 = 0b111;
+pub const FRONT: u8 = 0b11;
 pub const BFLAG: INDX = (SSIZE - 1) as INDX;
 
 pub const KSIZE: usize = 0016; // one keyset has __ bytes

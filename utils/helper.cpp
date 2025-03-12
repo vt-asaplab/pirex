@@ -385,6 +385,8 @@ extern "C"
 
     int load_table()
     {
+        printf("erro hello");
+
         FILE *file = fopen(TABLE_LOG, "rb");
 
         TABLE = (struct HashMap *)malloc(sizeof(struct HashMap));

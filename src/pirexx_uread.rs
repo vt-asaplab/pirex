@@ -439,6 +439,8 @@ impl Client
 
 fn main()
 {
+    println!("Test Hello");
+
     unsafe {load_table()}
 
     println!("Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);

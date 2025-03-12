@@ -1,0 +1,24 @@
+Test DB: 2^18 entries 4 KB 
+client computation elapse 61.173µs 
+client request elapse 28.004µs 
+total bandwidth nbytes 20489 
+Test DB: 2^20 entries 4 KB 
+client computation elapse 151.541µs 
+client request elapse 54.864µs 
+total bandwidth nbytes 24603 
+Test DB: 2^14 entries 64 KB 
+client computation elapse 42.109µs 
+client request elapse 64.632µs 
+total bandwidth nbytes 262665 
+Test DB: 2^16 entries 64 KB 
+client computation elapse 68.833µs 
+client request elapse 49.407µs 
+total bandwidth nbytes 263170 
+Test DB: 2^12 entries 256 KB 
+client computation elapse 137.013µs 
+client request elapse 71.123µs 
+total bandwidth nbytes 1048843 
+Test DB: 2^14 entries 256 KB 
+client computation elapse 173.161µs 
+client request elapse 80.648µs 
+total bandwidth nbytes 1049104 

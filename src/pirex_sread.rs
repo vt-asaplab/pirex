@@ -95,7 +95,7 @@ fn main()
                     let mut file = OpenOptions::new()
                         .create(true)
                         .append(true)
-                        .open("results/server_online").unwrap();
+                        .open("results/server_online.txt").unwrap();
     
                     file.write_all(format!("Test DB: 2^{:?} entries {:?} KB \n", LSIZE * 2, BSIZE / 1024).as_bytes()).unwrap();
     

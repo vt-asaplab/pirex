@@ -230,7 +230,7 @@ fn main()
     let mut file = OpenOptions::new()
         .create(true)
         .append(true)
-        .open("results/client_online").unwrap();
+        .open("results/client_online.txt").unwrap();
 
     println!("Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);
     file.write_all(format!("Test DB: 2^{:?} entries {:?} KB \n", LSIZE * 2, BSIZE / 1024).as_bytes()).unwrap();

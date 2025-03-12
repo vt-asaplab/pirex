@@ -181,7 +181,7 @@ Our artifact divide blocksize to multiple chunks of 64 bytes. Thus:
 
 
 
-
+<br/>
 
 
 # Artifact Evaluation
@@ -270,6 +270,8 @@ python3 control.py pirexx medium
 ```
 
 
+
+<br/>
 
 
 # Artifact Result

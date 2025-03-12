@@ -99,7 +99,7 @@ impl Client
         return (zeta, sub0, sub1, finis - start);
     }
     
-    pub fn request(& self, qa: TSUB, qb: TSUB) -> (Duration, [Vec<u8>; 4])
+    pub fn request(& self, qa: TSUB, qb: TSUB) -> (Duration, [Vec<u8>; 4], usize)
     {
         let mut stream = TcpStream::connect(SERVER_ADDRESS).expect("stream fail");
 
@@ -115,6 +115,8 @@ impl Client
             buffer.extend_from_slice(& length);
             buffer.extend_from_slice(list[i]);
         }
+
+        // println!("outbound band in nbytes: {:?}", buffer.len());
 
         stream.write_all(& (buffer.len() as u32).to_be_bytes()).unwrap();
         let start = Instant::now();
@@ -132,16 +134,18 @@ impl Client
             vec![0u8; BSIZE],
         ];
 
+        // println!("inbound band in nbytes: {:?}", response.len());
+
         for i in 0 .. 4
         {
             let val = & response[i * BSIZE .. (i + 1) * BSIZE];
             r_query[i].copy_from_slice(val);
         }
     
-        return (finis - start, r_query);
+        return (finis - start, r_query, buffer.len() + response.len());
     }
     
-    pub fn access(& mut self, x: INDX) -> (Duration, Duration)
+    pub fn access(& mut self, x: INDX) -> (Duration, Duration, usize)
     {    
         let (pk, offset) = self.crypto.ppr_val(x);
         let (sk, px, _hi, tx_search) = self.search(pk, offset);
@@ -156,7 +160,7 @@ impl Client
         // println!("query {pk}: {:?}", offset);
         // println!("hint: {hi}");
     
-        let (t_band, mut r_query) = self.request(q0, q1);
+        let (t_band, mut r_query, band_size) = self.request(q0, q1);
         
         r_query[2].copy_from_slice(px);
         let (dbitem, rec_t1) = self.recover(r_query);
@@ -166,14 +170,14 @@ impl Client
         self.item.write_all(view.as_bytes()).unwrap();
         // self.rewrite(hi, nk, parity);
 
-        let t_comp = (tx_search + tz_search) + (rec_t1) + (pat_t1);
+        let t_comp = (tx_search + tz_search) + (rec_t1 * 2) + (pat_t1);
 
-        println!("outbound delay: {:?}", t_band);
-        println!("client search delay: {:?}", tx_search + tz_search);
-        println!("client patch delay: {:?}", pat_t1);
-        println!("client recover delay: {:?}", rec_t1 * 2);
+        // println!("outbound delay: {:?}", t_band);
+        // println!("client search delay: {:?}", tx_search + tz_search);
+        // println!("client patch delay: {:?}", pat_t1);
+        // println!("client recover delay: {:?}", rec_t1 * 2);
 
-        return (t_comp, t_band);
+        return (t_comp, t_band, band_size);
     }
 
     pub fn rewrite(& mut self, hi: usize, nk: B_KEYSET, np: Vec<u8>)
@@ -218,17 +222,29 @@ fn main()
     let mut client = Client::new();
     let mut t_comp = Duration::from_secs(0);
     let mut t_band = Duration::from_secs(0);
+    let mut t_size: usize = 0;
 
     let index = (12482 % NSIZE) as INDX;
     let n_test = 20;
 
+    let mut file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open("results/client_online").unwrap();
+
     println!("Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);
+    file.write_all(format!("Test DB: 2^{:?} entries {:?} KB \n", LSIZE * 2, BSIZE / 1024).as_bytes()).unwrap();
 
     for _ in 0 .. n_test
     {
-        let (i_comp, i_band) = client.access(index);
+        let (i_comp, i_band, i_size) = client.access(index);
 
         t_comp += i_comp;
         t_band += i_band;
+        t_size += i_size;
     }
+
+    file.write_all(format!("client computation elapse {:?} \n", t_comp / n_test).as_bytes()).unwrap();
+    file.write_all(format!("client request elapse {:?} \n", t_band / n_test).as_bytes()).unwrap();
+    file.write_all(format!("total bandwidth nbytes {:?} \n", t_size / (n_test as usize)).as_bytes()).unwrap();
 }

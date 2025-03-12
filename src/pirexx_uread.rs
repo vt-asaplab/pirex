@@ -60,15 +60,15 @@ impl Client
         
         // elgamal_key.read_exact(&mut raw_sk).expect("read sk fail");
 
-        let mut wfile = File::open("wdet").expect("init wdet fail");
+        let mut wfile = File::open("detw").expect("init detw fail");
 
         let mut raw_det = [0u8; 2];
 
-        wfile.read_exact(&mut raw_det).expect("read wdet fail");
+        wfile.read_exact(&mut raw_det).expect("read detw fail");
 
         let wdet = u16::from_be_bytes(raw_det);
 
-        let wfile = File::create("wdet").expect("init wdet fail");
+        let wfile = File::create("detw").expect("init detw fail");
 
 
         let item = File::create("item").expect("init item file fail");

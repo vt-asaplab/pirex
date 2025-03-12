@@ -85,7 +85,7 @@ fn main()
 
     elgamal_key.write_all(& ahe_secret).expect("save elgamal keys");
 
-    let mut wdet = File::create("wdet").expect("init wdet fail");
+    let mut wdet = File::create("detw").expect("init detw fail");
 
-    wdet.write_all(& (0 as u16).to_be_bytes()).expect("save wdet");
+    wdet.write_all(& (0 as u16).to_be_bytes()).expect("save detw");
 }

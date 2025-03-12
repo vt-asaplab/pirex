@@ -107,19 +107,28 @@ fn init_hint_local()
         .create(true)
         .open("hint").expect("init hint fail");
 
-    let len_buffer = HSIZE * BSIZE;
-
-    pfile.set_len(len_buffer as u64).expect("error hint size");
+    pfile.set_len((HSIZE * BSIZE) as u64).expect("error hint size");
 
     pfile.flush().expect("flush fail");
+
+
+    let mut pkey = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        .open("kset").expect("init kset fail");
+
+    pkey.set_len((HSIZE * KSIZE) as u64).expect("error kset size");
+
+    pkey.flush().expect("flush fail");
 }
 
 
 fn init_wdet()
 {
-    let mut wdet = File::create("wdet").expect("init wdet fail");
+    let mut wdet = File::create("detw").expect("init detw fail");
 
-    wdet.write_all(& (0 as u16).to_be_bytes()).expect("save wdet");
+    wdet.write_all(& (0 as u16).to_be_bytes()).expect("save detw");
 }
 
 

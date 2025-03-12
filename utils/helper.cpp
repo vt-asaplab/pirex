@@ -102,7 +102,7 @@ extern "C" {
 using namespace std;
 using namespace std::chrono;
 
-#define TABLE_LOG "dlp.bin"
+#define TABLE_LOG "utils/dlp.bin"
 
 
 
@@ -141,7 +141,7 @@ uint32_t BLOCK_ID = 777;
 
 
 
-void encrypter(uint32_t start)
+void encrypter(uint32_t start, vector<long int>& rtimes, size_t index)
 {
     secp256k1_context *CTX = secp256k1_context_create(SECP256K1_CONTEXT_NONE);
     
@@ -164,12 +164,14 @@ void encrypter(uint32_t start)
 
     if (!good) printf("encrypter %d is not good\n", sched_getcpu());
 
-    printf("encrypt range (%d - %d) takes %ld millis\n", start, finis, cpu_time);
+    // printf("encrypt range (%d - %d) takes %ld millis\n", start, finis, cpu_time);
+
+    rtimes[index] = cpu_time;
 }
 
 
 
-void decrypter(uint32_t start)
+void decrypter(uint32_t start, vector<long int>& rtimes, size_t index)
 {
     // int cpu = sched_getcpu();
     // printf("current CPU ID: %d \n", cpu);
@@ -196,7 +198,9 @@ void decrypter(uint32_t start)
 
     if (!good) printf("decrypter %d is not good\n", sched_getcpu());
 
-    printf("decrypt range (%d - %d) takes %ld millis\n", start, finis, cpu_time);
+    // printf("decrypt range (%d - %d) takes %ld millis\n", start, finis, cpu_time);
+
+    rtimes[index] = cpu_time;
 }
 
 
@@ -208,20 +212,25 @@ extern "C"
     {
         vector<thread> threads;
         uint32_t starts[THREAD_NUM];
-
-        printf("\n");
+        vector<long int> rtimes(THREAD_NUM);
 
         for (uint32_t i = 0; i < THREAD_NUM; ++i)
         {
             starts[i] = i * THREAD_SIZE;
-            threads.emplace_back(decrypter, starts[i]);
+            threads.emplace_back(decrypter, starts[i], ref(rtimes), i);
         }
 
         for (auto &thread : threads) {
             thread.join();
         }
 
-        printf("\n");
+        long int total = 0;
+
+        for (auto &res : rtimes) {
+            total += res;
+        }
+
+        printf("decrypt averag delay %ld ms \n", total / THREAD_NUM);
     }
 
 
@@ -229,20 +238,25 @@ extern "C"
     {
         vector<thread> threads;
         uint32_t starts[THREAD_NUM];
-
-        printf("\n");
+        vector<long int> rtimes(THREAD_NUM);
 
         for (uint32_t i = 0; i < THREAD_NUM; ++i)
         {
             starts[i] = i * THREAD_SIZE;
-            threads.emplace_back(encrypter, starts[i]);
+            threads.emplace_back(encrypter, starts[i], ref(rtimes), i);
         }
 
         for (auto &thread : threads) {
             thread.join();
         }
 
-        printf("\n");
+        long int total = 0;
+
+        for (auto &res : rtimes) {
+            total += res;
+        }
+
+        printf("encrypt averag delay %ld ms \n", total / THREAD_NUM);
     }
 
 
@@ -385,9 +399,9 @@ extern "C"
 
     int load_table()
     {
-        printf("erro hello");
-
         FILE *file = fopen(TABLE_LOG, "rb");
+
+        if (file == NULL) return printf("Error opening file");
 
         TABLE = (struct HashMap *)malloc(sizeof(struct HashMap));
 

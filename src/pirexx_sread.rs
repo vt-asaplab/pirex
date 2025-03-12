@@ -12,7 +12,7 @@ use libs::*;
 
 fn handle_client(storage: & mut StoragePlus, hbuffer: & mut HintStorage, mut stream: TcpStream)
 {
-    println!("\n===== new request =====\n");
+    // println!("\n===== new request =====\n");
 
     let mut t_sum = Duration::from_secs(0);
     let mut header = [0u8; 4];
@@ -25,7 +25,6 @@ fn handle_client(storage: & mut StoragePlus, hbuffer: & mut HintStorage, mut str
     stream.read_exact(& mut base_01).expect("request pir fail");
     stream.write_all(& acknown).unwrap();
     let (xor_t1, res_01) = hbuffer.parity(base_01);
-    println!("first xor delay {:?}", xor_t1);
     
     // second xor
 
@@ -33,10 +32,17 @@ fn handle_client(storage: & mut StoragePlus, hbuffer: & mut HintStorage, mut str
     stream.read_exact(& mut base_02).expect("request pir fail");
     stream.write_all(& acknown).unwrap();
     let (xor_t2, res_02) = hbuffer.parity(base_02);
-    println!("second xor delay {:?}", xor_t2);
-    
 
+    println!("requests xorpir nbytes {:?}", PSIZE * 2);
+    println!("_requests should takes {:?} ms", PSIZE * 2 / 5000);
+    
+    println!("response xorpir nbytes {:?}", res_02.len() + res_01.len());
+    println!("_response should takes {:?} ms", (res_02.len() + res_01.len()) / 5000);
+    
     // normal query
+
+    let mut total_length = 0;
+    let mut normal_resp = 0;
 
     for i in 0 .. 4
     {
@@ -44,31 +50,39 @@ fn handle_client(storage: & mut StoragePlus, hbuffer: & mut HintStorage, mut str
         let length = u32::from_be_bytes(header) as usize;
         stream.read_exact(& mut buffer[.. length]).unwrap();
 
-        println!("recv {length}");
+        // println!("recv nbytes {length}");
+
+        total_length += length;
 
         let (parity, _t) = storage.parity(& buffer[.. length], i & 1 == 1);
         stream.write_all(& parity).unwrap();
 
+        normal_resp += parity.len();
+
         t_sum += _t;
     }
+
+    println!("requests normal nbytes {:?}", total_length);
+    println!("_requests should takes {:?} ms", total_length / 5000);
     
-    println!("time add hint {:?}", t_sum);
+    println!("response normal nbytes {:?}", normal_resp);
+    println!("_response should takes {:?} ms", normal_resp / 5000);
+    
 
-
-    let start = Instant::now();
+    let start_1 = Instant::now();
     stream.write_all(& res_01).unwrap();
     stream.read_exact(& mut acknown).unwrap();
-    let finis = Instant::now();
-    println!("response size {:?}", res_01.len());
-    println!("response delay {:?}", finis - start);
+    let finis_1 = Instant::now();
 
-
-    let start = Instant::now();
+    let start_2 = Instant::now();
     stream.write_all(& res_02).unwrap();
     stream.read_exact(& mut acknown).unwrap();
-    let finis = Instant::now();
-    println!("response size {:?}", res_02.len());
-    println!("response delay {:?}", finis - start);
+    let finis_2 = Instant::now();
+
+    println!("add dbitem comp delay {:?}", t_sum);
+    println!("xor parity comp delay {:?}", xor_t2 + xor_t1);
+    
+    println!("response xorpir delay {:?}", (finis_1 - start_1) + (finis_2 - start_2));
 }
 
 
@@ -78,7 +92,7 @@ fn handle_write(hbuffer: & mut HintStorage, mut stream: TcpStream)
     let mut block = vec![0u8; ESIZE * 2];
     let mut raw_pos = [0u8; 2];
 
-    println!("\n===== new deterministic write =====\n");
+    // println!("\n===== new deterministic write =====\n");
     
     stream.read_exact(& mut raw_pos).expect("request write pos fail");
     stream.read_exact(& mut block).expect("request write fail");
@@ -99,8 +113,6 @@ fn main()
 
     let mut switch = 0;
 
-    println!("Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);
-
     loop {
         match listener.accept() {
             
@@ -110,6 +122,8 @@ fn main()
                 
                 if switch % 3 != 0
                 {
+                    println!("\n===== (Per Server Cost) Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);
+                    
                     handle_client(& mut storage, & mut hbuffer, stream);
                 }
                 else {

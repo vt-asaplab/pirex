@@ -181,18 +181,20 @@ impl Client
         let mut new_0 = vec![0u8; BSIZE];
         let mut new_1 = vec![0u8; BSIZE];
 
-        let start = Instant::now();
+        let start_1 = Instant::now();
         stream.write_all(& first_bitvec).unwrap();
         stream.read_exact(& mut acknown).unwrap();
-        let finis = Instant::now();
-        println!("send bitvec 01 delay {:?}", finis - start);
+        let finis_1 = Instant::now();
 
-        let start = Instant::now();
+        let start_2 = Instant::now();
         stream.write_all(& second_bitvec).unwrap();
         stream.read_exact(& mut acknown).unwrap();
-        let finis = Instant::now();
-        println!("send bitvec 02 delay {:?}", finis - start);
+        let finis_2 = Instant::now();
+        
+        println!("request xorpir delay {:?}", (finis_2 - start_2) + (finis_1 - start_1));
 
+
+        let start_3 = Instant::now();
 
         for i in 0 .. 4
         {
@@ -209,15 +211,15 @@ impl Client
         stream.read_exact(& mut new_0).unwrap();
         stream.read_exact(& mut new_1).unwrap();
 
+        let finis_3 = Instant::now();
+        println!("normal b/width delay {:?}", finis_3 - start_3);
+
         stream.read_exact(& mut first_bitvec_result).unwrap();
         stream.write_all(& acknown).unwrap();
 
         stream.read_exact(& mut second_bitvec_result).unwrap();
         stream.write_all(& acknown).unwrap();
 
-        let finis = Instant::now();
-
-        println!("end-to-end delay {:?}", finis - start);
     
         return ([dat_0, dat_1], [new_0, new_1], first_bitvec_result, second_bitvec_result);
     }
@@ -237,7 +239,7 @@ impl Client
 
         let finis = Instant::now();
 
-        println!("parity xor recover delay {:?}", finis - start);
+        println!("recover parity delay {:?}", finis - start);
 
         unsafe {
             set_key_and_bid(KEY.as_ptr(), KEY.len(), _bid as u32);
@@ -268,37 +270,34 @@ impl Client
         let (query_0, query_1, time_patch_query) = self.patch(partition_index, current_key, true); // server id is set to 1
         let (refresh_0, refresh_1, time_patch_refresh) = self.patch(partition_index, & new_key, true); // server id is neg to 0
 
-        println!("search key + parity delay {:?}", time_search);
-        println!("patch hint delay {:?}", time_patch_query + time_patch_refresh);
-
         // end prepare
 
         // prepare oblivios write
 
-            // new key value to local
+        // new key value to local
 
-            let kset = self.kset.deref_mut();
-            let new_key_storage = & mut kset[hint_index * KSIZE .. (hint_index + 1) * KSIZE];
-            new_key_storage.copy_from_slice(& new_key);
-    
-    
-            // get position for oblivious write in left buffer
-    
-            let counter = self.wdet as usize;
-            let left_pos = & mut self.ppos[counter * 2 .. (counter + 1) * 2];
-            let pos = u16::from_be_bytes(left_pos.try_into().unwrap()) as usize;
-            left_pos.copy_from_slice(& self.wdet.to_be_bytes());
+        let kset = self.kset.deref_mut();
+        let new_key_storage = & mut kset[hint_index * KSIZE .. (hint_index + 1) * KSIZE];
+        new_key_storage.copy_from_slice(& new_key);
 
-            let (a_bitvec, b_bitvec, time_gen) = self.crypto.gen_pir(pos);
-            println!("PIR bitgen delay {:?}", time_gen);
-    
-            // set position for oblivious write in right buffer
-    
-            let righ_pos = & mut self.ppos[hint_index * 2 .. (hint_index + 1) * 2];
-            righ_pos.copy_from_slice(& ((counter + HSIZE) as u16).to_be_bytes());
 
+        // get position for oblivious write in left buffer
+
+        let counter = self.wdet as usize;
+        let left_pos = & mut self.ppos[counter * 2 .. (counter + 1) * 2];
+        let pos = u16::from_be_bytes(left_pos.try_into().unwrap()) as usize;
+        left_pos.copy_from_slice(& self.wdet.to_be_bytes());
+
+        let (a_bitvec, b_bitvec, time_gen) = self.crypto.gen_pir(pos);
+
+        // set position for oblivious write in right buffer
+
+        let righ_pos = & mut self.ppos[hint_index * 2 .. (hint_index + 1) * 2];
+        righ_pos.copy_from_slice(& ((counter + HSIZE) as u16).to_be_bytes());
 
         // end prepare
+
+        println!("generate query delay {:?}", time_gen + time_search + time_patch_query + time_patch_refresh);
     
         let (q0_result, r0_result, x_parity, a_parity) = self.request(SERVER_ADDRESS, query_0, refresh_0, & x_bitvec, & a_bitvec);
         let (q1_result, r1_result, y_parity, b_parity) = self.request(SERVER_ADDRESS, query_1, refresh_1, & y_bitvec, & b_bitvec);
@@ -311,7 +310,7 @@ impl Client
         let (data_item, t_rec) = self.recover_dbitem([& q0_result[0], & q0_result[1], & current_parity, & q1_result[1]]);
         let (refresh_parity, t_ref) = self.refresh_parity([& r0_result[0], & r0_result[1], & data_item, & r1_result[1]]);
 
-        println!("item recover delay {:?}", t_rec + t_ref);
+        println!("recover dbitem delay {:?}", t_rec + t_ref);
         self.rewrite(rewrite_parity, counter, refresh_parity, hint_index);
 
 
@@ -439,11 +438,11 @@ impl Client
 
 fn main()
 {
-    println!("Test Hello");
+    println!("\nLoading Table ...");
 
     unsafe {load_table()}
 
-    println!("Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);
+    println!("===== (Per Client Cost) Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);
 
     let mut client = Client::new();
 

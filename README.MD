@@ -1,62 +1,6 @@
 
-# PIREX: CLIENT-EFFICIENT ONLINE-OFFLINE PIR
 
-Note: This project was last updated in: March-11-2025
-
-WARNING: This is an academic proof-of-concept prototype and has not received careful code review. This implementation is NOT ready for production use.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## OFFLINE PHASE
-
-(For `pirex+`, replace the filename `pirex` with `pirexx`)
-
-1. Run server code
-```
-./target/release/pirex_sprep
-```
-
-
-2. Run client code
-```
-./target/release/pirex_uprep
-```
-
-
-## ONLINE PHASE
-
-(For `pirex+`, replace the filename `pirex` with `pirexx`)
-
-1. Run server code
-```
-./target/release/pirex_sread
-```
-
-
-2. Run client code
-```
-./target/release/pirex_uread
-```
-
-
-
-
-# Artifact Appendix
+# Artifact
 
 Paper title: **Client-Efficient Online-Offline Private Information Retrieval**
 
@@ -64,20 +8,26 @@ Artifacts HotCRP Id: **#13**
 
 Requested Badge: **Available**, **Functional**, or **Reproduced**
 
+Note: This project was last updated in: March-11-2025
+
+Warning: This is an academic proof-of-concept prototype and has not received careful code review. This implementation is NOT ready for production use.
+
 <br/>
 
 
 ## Description
-A short description of your artifact and how it links to your paper.
+
+This artifact contains source code to our two proposed scheme Pirex/Pirex+
+
 
 ### Security/Privacy Issues and Ethical Concerns (All badges)
 Our implementation uses common `rust` modules from standard `crates.io`
-which is automatically managed by `cargo` package manager and standard 
-cryptographic library `libsecp256k1` from `bitcoin-core` which requires 
-`libtool`, `automake`, `build-essential` for compile process and can be 
-easily installed via package management tools (e.g. apt on Ubuntu).
-It neither contains any threat to the system’s integrity or privacy that 
-executes our source code nor raises any ethical concerns.
+which is automatically managed by `cargo` package manager. In addition,
+we use standard cryptographic library `libsecp256k1` from `bitcoin-core` 
+which only requires `libtool`, `automake`, `build-essential` for compile 
+process and can be easily installed via package management tools (e.g. 
+apt on Ubuntu). The execution of this artifact does not pose any risks 
+to the evaluators’ system security, data privacy, or ethical concerns.
 
 
 <br/>
@@ -99,29 +49,41 @@ In adddition, our artifact can automatically make use RAM resource (upto 1TB)
 to accelerate the server performance.
 
 
+### Network Expectation
+
+Our artifact supports network connection between client and server through
+TCP stream, which can be adjusted for both remote and local testing.
+
+Regardless of the testing environment, we expect the network bandwidth will
+be around 40~45 Mbps to match our main results and claims.
+
+
 
 <br/>
 
 ### Software Requirements
+
 All required `rust` modules and `libsecp256k1` source codes have
 already been incorporated into the current artifact.
+
+<br/>
 
 
 ### Estimated Time and Storage Consumption
 
-This artifact contains the implementation of 02 schemes.
+This artifact contains the implementation of two schemes Pirex/Pirex+
 Each scheme has two phases to be evaluated: (1) Offline, (2) Online.
 
-The evaluation of the offline phase per scheme can take upto 01 human days.
+The evaluation of the offline phase per scheme can take about 01 human days.
 
-The evaluation of the online phase per each scheme only take upto 05 human hours.
+The evaluation of the online phase per scheme can take about 05 human hours.
 
 Since the offline phase only affect the correctness of our scheme, 
 we have provided instructions so that the offline phase can be skipped
 but still allow the full efficiency evaluation of the online phase.
 
-The total corresponding required storage size is under 1TB (max database setting
-in our scheme).
+The total required storage size for full evaluation is under 1TB 
+(max database setting in our schemes).
 
 We recommend running the first 04 test cases of our artifact, which
 only consist 04 online phases for each scheme, and only take upto 02
@@ -135,7 +97,8 @@ human hours with 100GB storage in corresponding.
 
 ## Environment 
 
-In this section, we describe how the component of our artifact and how to verify that everything is set up correctly.
+In this section, we describe the component of our artifact and how 
+to verify that everything is set up correctly.
 
 <br/>
 
@@ -169,19 +132,18 @@ rustup default nightly-2023-09-24
 
 ### Install Dependency
 
-For `pirex+`, we have customized `secp256k1` library and put
+For `pirex+`, we have customized `libsecp256k1` library and put
 under `secp256k1` folder.
 
-Before being able to compile our `secp256k1`, you may need to 
-install some building library as follow:
+Before being able to compile our `libsecp256k1`, you may need to 
+install some building libraries as follow:
 
 ```
 sudo apt install build-essential
 sudo apt install autoconf automake libtool
 ```
 
-After check the above requirements, you need to move 
-inside `secp256k1` folder to compile it.
+After checking all requirements, move into `secp256k1` for compilation.
 
 ```
 ./autogen.sh
@@ -195,9 +157,13 @@ when we build our main source code in rust.
 
 `libsecp256k1.a` will need a precomputed discrete log table.
 
-To save time, you can download it from: https://www.dropbox.com/scl/fi/09dufxsm3qc4nnemdqgpv/dlp.bin?rlkey=rtcq1banfpl0cehdd2oa1b7zy&st=rfhznwre&dl=0
+To save time, you can download it from: https://www.dropbox.com/scl/fi/09dufxsm3qc4nnemdqgpv/dlp.bin?rlkey=rtcq1banfpl0cehdd2oa1b7zy&st=rfhznwre&dl=1
 
-Name it as `dlp.bin` and put it into `utils` folder in the root.
+```
+curl -L -o dlp.bin <the_above_link>
+```
+
+Move `dlp.bin` into `utils` folder in the root.
 
 
 <br/>
@@ -205,16 +171,16 @@ Name it as `dlp.bin` and put it into `utils` folder in the root.
 
 ### Configure & Build
 
-1. Change the `SERVER_ADDRESS` inside `src/libs.rs` (We already put localhost as default)
+1. Edit `SERVER_ADDRESS` inside `src/libs.rs` (We use localhost as default)
 
-2. Check if environment is configured correctly and artifact can be builded and linked:
+2. Check if environment is configured correctly for automate compilation:
 
 ```
 python3 config.py 64 22
 cargo build --release
 ```
 
-If the artifact is correctly configured and builded, you should see the following output:
+If the artifact is correctly builded, you should see the following output:
 
 ```
 warning: secp256k1 library path: <your_home_path>/pirex/secp256k1/.libs
@@ -223,10 +189,10 @@ warning: secp256k1 library path: <your_home_path>/pirex/secp256k1/.libs
 The above commands are the first step to help us to test the performance
 on a database of $2^{22}$ records, each of size 04KiB. 
 
-Our code can work with any blocksize as long as the bytes' amount is divisible by 64.
-- 04KiB = 4096 bytes --> input `64`
-- 64KiB = 65536 bytes --> input `1024`
-- 256KiB = 262144 bytes --> input `4096`
+Our artifact divide blocksize to multiple chunks of 64 bytes. Thus:
+- 04KiB = 4096 bytes --> input `64` chunks
+- 64KiB = 65536 bytes --> input `1024` chunks
+- 256KiB = 262144 bytes --> input `4096` chunks
 
     
 
@@ -269,16 +235,16 @@ This produce the following testcase:
 
 We have provided a `control.py` script to automate
 this testing process with input: `small`, `medium`, `large`.
-This script helps us to skip the offline phase and
+This script can help us to skip the offline phase and
 directly measure breakdown cost of the online phase.
 
 <br/>
 
 
 
-### Performance Testcases
+### Experiment Procedure
 
-We recommend start with `small` and then `medium` testcase.
+We recommend start with `small` then `medium` testcase.
 We will first need to randomize the client and server
 data structure to simulate (without correctness) using 
 `src/helper.rs`. We can run a helper code as follow:
@@ -291,19 +257,18 @@ cargo build --release
 This will create data structures that are enough for us
 to first test the performace of `small`, `medium` cases.
 
-
 We can then run the automate script `control.py` as follow:
 ```
-python3 control.py small
-python3 control.py medium
+python3 control.py pirex small
+python3 control.py pirex medium
 ```
 
 All breakdown cost will be logged inside `results` folder:
 - Total client computation delay
 - Total server computation delay
+- In/Out bandwidth cost as number of bytes
+- In/Out bandwidth delay (w.r.t the expected 40 Mbps)
 - In/Out bandwidth delay (w.r.t your local environment)
-- Total bandwidth cost as number of bytes
-
 
 Since `large` testcase can consume 1TB of storage disk 
 to randomly create a database for testing, we recommend
@@ -314,7 +279,7 @@ run as follow to setup data structure for `large` case:
 python3 config.py 64 28
 cargo build --release 
 ./target/release/helper
-python3 control.py large
+python3 control.py pirex large
 ```
 
 

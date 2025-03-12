@@ -121,6 +121,16 @@ fn init_hint_local()
     pkey.set_len((HSIZE * KSIZE) as u64).expect("error kset size");
 
     pkey.flush().expect("flush fail");
+
+
+    let mut fs_pos = File::create("ppos").expect("init ppos fail");
+    let mut ppos = vec![0u8; 2 * HSIZE];
+
+    for (i, each) in ppos.chunks_mut(2).enumerate()
+    {
+        each.copy_from_slice(& (i as u16).to_be_bytes());
+    }
+    fs_pos.write_all(& ppos).expect("write ppos fail");
 }
 
 

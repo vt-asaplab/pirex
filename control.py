@@ -36,10 +36,13 @@ build = "cargo build --release"
 pirex_server = "./target/release/pirex_sread"
 pirex_client = "./target/release/pirex_uread"
 
+pirexx_server = "./target/release/pirexx_sread"
+pirexx_client = "./target/release/pirexx_uread"
+
 find_port = "lsof -t -i :8111"
 
 
-def check(case):
+def pirex_test(case):
 
     for test in case:
         subprocess.run(test, shell=True, check=True)
@@ -52,14 +55,47 @@ def check(case):
         subprocess.run(f"kill -9 {PID}", shell=True, check=True)
 
 
+def pirexx_test(case):
+
+    for test in case:
+        subprocess.run(test, shell=True, check=True)
+        subprocess.run(build, shell=True, check=True)
+        
+        server = subprocess.Popen(pirexx_server, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        client = subprocess.run(pirexx_client, capture_output=True, shell=True, check=True)
+
+        PID = subprocess.run(find_port, capture_output=True, shell=True, text=True).stdout.strip()
+        subprocess.run(f"kill -9 {PID}", shell=True, check=True)
+
+        client_out = client.stdout.strip()
+        server_out, stderr = server.communicate() 
+
+        with open("results/pirexx_client_online.txt", "ab") as file:
+            file.write(client_out)
+
+        with open("results/pirexx_server_online.txt", "ab") as file:
+            file.write(server_out)
+
 
 if len(sys.argv) > 1:
 
-    inp = sys.argv[1]
+    sch = sys.argv[1]
     
-    if inp == "small": check(small_case)
+    inp = sys.argv[2]
+
+    if sch == "pirex":
     
-    if inp == "medium": check(medium_case)
+        if inp == "small": pirex_test(small_case)
+        
+        if inp == "medium": pirex_test(medium_case)
+        
+        if inp == "large": pirex_test(large_case)
     
-    if inp == "large": check(large_case)
+    if sch == "pirexx":
+    
+        if inp == "small": pirexx_test(small_case)
+        
+        if inp == "medium": pirexx_test(medium_case)
+        
+        if inp == "large": pirexx_test(large_case)
 

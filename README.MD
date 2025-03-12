@@ -15,12 +15,12 @@ Warning: This is an academic proof-of-concept prototype and has not received car
 <br/>
 
 
-## Description
+# Description
 
-This artifact contains source code to our two proposed scheme Pirex/Pirex+
+This artifact contains source code to our two proposed scheme Pirex and Pirex+
 
 
-### Security/Privacy Issues and Ethical Concerns (All badges)
+### Security, Privacy, and Ethical Concerns
 Our implementation uses common `rust` modules from standard `crates.io`
 which is automatically managed by `cargo` package manager. In addition,
 we use standard cryptographic library `libsecp256k1` from `bitcoin-core` 
@@ -32,12 +32,10 @@ to the evaluators’ system security, data privacy, or ethical concerns.
 
 <br/>
 
-## Basic Requirements (Only for Functional and Reproduced badges)
+# Basic Requirements
 
 We describe the minimal hardware and software requirements for our artifact 
 and estimate the compute time and storage required to run the artifact.
-
-<br/>
 
 ### Hardware Requirements
 No specific hardware is required to execute this artifact.
@@ -48,7 +46,6 @@ A laptop with `x86_64` bit architecture with at least 8-core CPU, 16GB RAM and
 In adddition, our artifact can automatically make use RAM resource (upto 1TB) 
 to accelerate the server performance.
 
-
 ### Network Expectation
 
 Our artifact supports network connection between client and server through
@@ -58,15 +55,10 @@ Regardless of the testing environment, we expect the network bandwidth will
 be around 40~45 Mbps to match our main results and claims.
 
 
-
-<br/>
-
 ### Software Requirements
 
 All required `rust` modules and `libsecp256k1` source codes have
 already been incorporated into the current artifact.
-
-<br/>
 
 
 ### Estimated Time and Storage Consumption
@@ -95,12 +87,10 @@ human hours with 100GB storage in corresponding.
 
 
 
-## Environment 
+# Environment 
 
 In this section, we describe the component of our artifact and how 
 to verify that everything is set up correctly.
-
-<br/>
 
 ### Accessibility
 
@@ -115,8 +105,6 @@ From the root, we have three directories:
 3. `src` is where we store the codes for our proposed schemes.
 4. `utils` is where we store helper data and cpp function.
 
-<br/>
-
 ### Setup Environment
 
 To configure the correct `rust` version:
@@ -126,8 +114,6 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 rustup toolchain install nightly-2023-09-24
 rustup default nightly-2023-09-24
 ```
-
-<br/>
 
 
 ### Install Dependency
@@ -166,9 +152,6 @@ curl -L -o dlp.bin <the_above_link>
 Move `dlp.bin` into `utils` folder in the root.
 
 
-<br/>
-
-
 ### Configure & Build
 
 1. Edit `SERVER_ADDRESS` inside `src/libs.rs` (We use localhost as default)
@@ -201,7 +184,7 @@ Our artifact divide blocksize to multiple chunks of 64 bytes. Thus:
 
 
 
-## Artifact Evaluation
+# Artifact Evaluation
 
 In this section, we include all the steps required to evaluate our artifact's functionality and validate our paper's key results and claims.
 
@@ -209,8 +192,6 @@ In this section, we include all the steps required to evaluate our artifact's fu
 - Constant client inbound bandwidth cost (`pirex`, `pirex+`)
 - Low client online end-to-end delay (`pirex`, `pirex+`)
 - Low client storage cost (`pirex+`)
-
-<br/>
 
 
 ### Performance Testcases
@@ -237,8 +218,6 @@ We have provided a `control.py` script to automate
 this testing process with input: `small`, `medium`, `large`.
 This script can help us to skip the offline phase and
 directly measure breakdown cost of the online phase.
-
-<br/>
 
 
 
@@ -283,17 +262,29 @@ python3 control.py pirex large
 ```
 
 
-#### Main Result 1: Constant Inbound Bandwidth
+For `pirex+`, we also recommend running the `small` and `medium` 
+testcases first:
+```
+python3 control.py pirexx small
+python3 control.py pirexx medium
+```
+
+
+
+
+# Artifact Result
+
+### Main Result 1: Constant Inbound Bandwidth
 - Figure 8
 
 
-#### Main Result 2: Low Client Online End-End Delay
+### Main Result 2: Low Client Online End-End Delay
 - Server computation delay + Client computation delay
 - Figure 10 + 11 + 12
 
 
 
-#### Main Result 2: Low Client Storage Cost
+### Main Result 2: Low Client Storage Cost
 - Storage Cost (Figure 14)
 
 
@@ -301,11 +292,9 @@ python3 control.py pirex large
 
 
 
+# More Self Evaluation
 
-
-### More Self Evaluation
-
-#### OFFLINE PHASE
+### OFFLINE PHASE
 
 (For `pirex+`, replace the filename `pirex` with `pirexx`)
 
@@ -320,7 +309,7 @@ python3 control.py pirex large
 ```
 
 
-#### ONLINE PHASE
+### ONLINE PHASE
 
 (For `pirex+`, replace the filename `pirex` with `pirexx`)
 

@@ -86,8 +86,6 @@ impl Client
         self.crypto.os_random(& mut rset);
 
         let start = Instant::now();
-
-        println!("stop here");
         
         let (par0, par1, zeta, _) = self.crypto.gen_ppr(pk);
         let mut sset = self.crypto.key_set(key);
@@ -247,6 +245,7 @@ fn main()
     }
 
     file.write_all(format!("client computation elapse {:?} \n", t_comp / n_test).as_bytes()).unwrap();
-    file.write_all(format!("client request elapse {:?} \n", t_band / n_test).as_bytes()).unwrap();
+    file.write_all(format!("client request elapse {:?} (real measure) \n", t_band / n_test).as_bytes()).unwrap();
     file.write_all(format!("total bandwidth nbytes {:?} \n", t_size / (n_test as usize)).as_bytes()).unwrap();
+    file.write_all(format!("total bandwidth elapse {:?}ms (in 40 Mbps) \n", t_size / 5000 / (n_test as usize)).as_bytes()).unwrap();
 }

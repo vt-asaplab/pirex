@@ -125,7 +125,7 @@ struct HashMap *TABLE;
 const size_t KEY_LEN = 16;
 const size_t INP_LEN = 04;
 const size_t ENC_LEN = 33;
-const size_t N_CHUNK = 1024;
+const size_t N_CHUNK = 65536; // script auto change this
 const size_t THREAD_NUM = 8;
 const uint32_t THREAD_SIZE = N_CHUNK / THREAD_NUM;
 

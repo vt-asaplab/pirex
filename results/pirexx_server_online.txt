@@ -1,0 +1,156 @@
+
+===== PIREX+ (Per Server Cost) Test DB: 2^18 entries 4 KB
+xorpir request nbytes 4608
+xorpir request takes 0ms (in 40 Mbps)
+xorpir response nbytes 67584
+xorpir response takes 13ms (in 40 Mbps)
+pirex request nbytes 4112
+pirex request takes 0ms (in 40 Mbps)
+pirex response nbytes 16384
+pirex response takes 3ms (in 40 Mbps)
+add dbitem comp delay 825.888µs
+xor parity comp delay 34.899369ms
+xorpir response delay 359.936µs (real measure)
+
+===== PIREX+ (Per Server Cost) Test DB: 2^18 entries 4 KB
+xorpir request nbytes 4608
+xorpir request takes 0ms (in 40 Mbps)
+xorpir response nbytes 67584
+xorpir response takes 13ms (in 40 Mbps)
+pirex request nbytes 4120
+pirex request takes 0ms (in 40 Mbps)
+pirex response nbytes 16384
+pirex response takes 3ms (in 40 Mbps)
+add dbitem comp delay 851.775µs
+xor parity comp delay 35.569617ms
+xorpir response delay 273.297µs (real measure)
+
+===== PIREX+ (Per Server Cost) Test DB: 2^20 entries 4 KB
+xorpir request nbytes 10240
+xorpir request takes 2ms (in 40 Mbps)
+xorpir response nbytes 67584
+xorpir response takes 13ms (in 40 Mbps)
+pirex request nbytes 8108
+pirex request takes 1ms (in 40 Mbps)
+pirex response nbytes 16384
+pirex response takes 3ms (in 40 Mbps)
+add dbitem comp delay 1.64697ms
+xor parity comp delay 77.250818ms
+xorpir response delay 263.519µs (real measure)
+
+===== PIREX+ (Per Server Cost) Test DB: 2^20 entries 4 KB
+xorpir request nbytes 10240
+xorpir request takes 2ms (in 40 Mbps)
+xorpir response nbytes 67584
+xorpir response takes 13ms (in 40 Mbps)
+pirex request nbytes 8116
+pirex request takes 1ms (in 40 Mbps)
+pirex response nbytes 16384
+pirex response takes 3ms (in 40 Mbps)
+add dbitem comp delay 1.677182ms
+xor parity comp delay 76.82873ms
+xorpir response delay 338.023µs (real measure)
+
+===== PIREX+ (Per Server Cost) Test DB: 2^14 entries 64 KB
+xorpir request nbytes 896
+xorpir request takes 0ms (in 40 Mbps)
+xorpir response nbytes 1081344
+xorpir response takes 216ms (in 40 Mbps)
+pirex request nbytes 484
+pirex request takes 0ms (in 40 Mbps)
+pirex response nbytes 262144
+pirex response takes 52ms (in 40 Mbps)
+add dbitem comp delay 3.120978ms
+xor parity comp delay 60.395038ms
+xorpir response delay 934.278µs (real measure)
+
+===== PIREX+ (Per Server Cost) Test DB: 2^14 entries 64 KB
+xorpir request nbytes 896
+xorpir request takes 0ms (in 40 Mbps)
+xorpir response nbytes 1081344
+xorpir response takes 216ms (in 40 Mbps)
+pirex request nbytes 488
+pirex request takes 0ms (in 40 Mbps)
+pirex response nbytes 262144
+pirex response takes 52ms (in 40 Mbps)
+add dbitem comp delay 3.129601ms
+xor parity comp delay 60.795454ms
+xorpir response delay 11.583099ms (real measure)
+
+===== PIREX+ (Per Server Cost) Test DB: 2^16 entries 64 KB
+xorpir request nbytes 2048
+xorpir request takes 0ms (in 40 Mbps)
+xorpir response nbytes 1081344
+xorpir response takes 216ms (in 40 Mbps)
+pirex request nbytes 1006
+pirex request takes 0ms (in 40 Mbps)
+pirex response nbytes 262144
+pirex response takes 52ms (in 40 Mbps)
+add dbitem comp delay 6.398613ms
+xor parity comp delay 186.227274ms
+xorpir response delay 13.407887ms (real measure)
+
+===== PIREX+ (Per Server Cost) Test DB: 2^16 entries 64 KB
+xorpir request nbytes 2048
+xorpir request takes 0ms (in 40 Mbps)
+xorpir response nbytes 1081344
+xorpir response takes 216ms (in 40 Mbps)
+pirex request nbytes 1010
+pirex request takes 0ms (in 40 Mbps)
+pirex response nbytes 262144
+pirex response takes 52ms (in 40 Mbps)
+add dbitem comp delay 6.336808ms
+xor parity comp delay 131.111702ms
+xorpir response delay 10.728335ms (real measure)
+
+===== PIREX+ (Per Server Cost) Test DB: 2^12 entries 256 KB
+xorpir request nbytes 384
+xorpir request takes 0ms (in 40 Mbps)
+xorpir response nbytes 4325376
+xorpir response takes 865ms (in 40 Mbps)
+pirex request nbytes 244
+pirex request takes 0ms (in 40 Mbps)
+pirex response nbytes 1048576
+pirex response takes 209ms (in 40 Mbps)
+add dbitem comp delay 6.276757ms
+xor parity comp delay 314.854679ms
+xorpir response delay 27.034327ms (real measure)
+
+===== PIREX+ (Per Server Cost) Test DB: 2^12 entries 256 KB
+xorpir request nbytes 384
+xorpir request takes 0ms (in 40 Mbps)
+xorpir response nbytes 4325376
+xorpir response takes 865ms (in 40 Mbps)
+pirex request nbytes 248
+pirex request takes 0ms (in 40 Mbps)
+pirex response nbytes 1048576
+pirex response takes 209ms (in 40 Mbps)
+add dbitem comp delay 6.398933ms
+xor parity comp delay 325.92961ms
+xorpir response delay 21.719748ms (real measure)
+
+===== PIREX+ (Per Server Cost) Test DB: 2^14 entries 256 KB
+xorpir request nbytes 896
+xorpir request takes 0ms (in 40 Mbps)
+xorpir response nbytes 4325376
+xorpir response takes 865ms (in 40 Mbps)
+pirex request nbytes 534
+pirex request takes 0ms (in 40 Mbps)
+pirex response nbytes 1048576
+pirex response takes 209ms (in 40 Mbps)
+add dbitem comp delay 13.467625ms
+xor parity comp delay 690.128235ms
+xorpir response delay 21.014808ms (real measure)
+
+===== PIREX+ (Per Server Cost) Test DB: 2^14 entries 256 KB
+xorpir request nbytes 896
+xorpir request takes 0ms (in 40 Mbps)
+xorpir response nbytes 4325376
+xorpir response takes 865ms (in 40 Mbps)
+pirex request nbytes 538
+pirex request takes 0ms (in 40 Mbps)
+pirex response nbytes 1048576
+pirex response takes 209ms (in 40 Mbps)
+add dbitem comp delay 13.570475ms
+xor parity comp delay 715.853153ms
+xorpir response delay 30.035945ms (real measure)

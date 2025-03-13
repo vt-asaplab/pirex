@@ -6,8 +6,10 @@ bsize = int(sys.argv[1])
 psize = int(sys.argv[2])
 
 
-file_path = 'src/libs.rs'
-line_number_to_replace = [22, 26, 27, 29, 31, 35, 36, 51, 52]
+lib_path = 'src/libs.rs'
+util_path = 'utils/helper.cpp'
+
+line_number_to_replace = [22, 26, 27, 29, 31, 35, 36, 51, 52, 128]
 
 content = [
     "pub const BUNIT: usize = ",
@@ -19,10 +21,15 @@ content = [
     "pub const ISQRT: usize = ",
     "pub type SQRT = ",
     "pub type INDX = ",
+    "const size_t N_CHUNK = ",
 ]
 
-with open(file_path, 'r') as file:
+with open(lib_path, 'r') as file:
     lines = file.readlines()
+
+
+with open(util_path, 'r') as file:
+    utils = file.readlines()
 
 
 
@@ -63,8 +70,15 @@ for i in range(len(content)):
             lines[line_number_to_replace[i] - 1] = content[i] + "u32;\n"
         else:
             lines[line_number_to_replace[i] - 1] = content[i] + "u16;\n"
+    
+
+    if i == 9:
+        utils[line_number_to_replace[i] - 1] = content[i] + str(bsize * 16) + "; // script auto change this\n"
 
 
 
-with open(file_path, 'w') as file:
+with open(lib_path, 'w') as file:
     file.writelines(lines)
+
+with open(util_path, 'w') as file:
+    file.writelines(utils)

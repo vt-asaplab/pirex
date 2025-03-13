@@ -19,21 +19,21 @@ use bitvec::prelude::*;
 
 pub const SERVER_ADDRESS: &str = "127.0.0.1:8111";
 
-pub const BUNIT: usize = 64; // one block has __ chunks
+pub const BUNIT: usize = 4096; // one block has __ chunks
 pub const USIZE: usize = 64; // one chunk has 64 bytes
 pub const BSIZE: usize = BUNIT * USIZE; // block size
 
-pub const NSIZE: usize = 262144; // dbase size
-pub const LSIZE: usize = 9; // logarithm sqrt
+pub const NSIZE: usize = 16384; // dbase size
+pub const LSIZE: usize = 7; // logarithm sqrt
 pub const SSIZE: usize = NSIZE >> LSIZE; // sqrt
-pub const HSIZE: usize = SSIZE * 18; // hint size
+pub const HSIZE: usize = SSIZE * 14; // hint size
 
-pub const FRONT: u8 = 0b1;
+pub const FRONT: u8 = 0b1111111;
 pub const BFLAG: INDX = (SSIZE - 1) as INDX;
 
 pub const KSIZE: usize = 0016; // one keyset has __ bytes
-pub const ISIZE: usize = 0004; // one indice has __ bytes
-pub const ISQRT: usize = 0002; // one offset has __ bytes
+pub const ISIZE: usize = 0002; // one indice has __ bytes
+pub const ISQRT: usize = 0001; // one offset has __ bytes
 
 pub const IV_SIZE: usize = SSIZE * ISIZE;
 pub const IV_SQRT: usize = SSIZE * ISQRT;
@@ -48,8 +48,8 @@ pub type B_UCHUNK = [u8; USIZE]; // one chunk as byte array
 
 pub type LANE = u8x64;
 pub type SIMD = Simd<B_UCHUNK>;
-pub type SQRT = u16;
-pub type INDX = u32;
+pub type SQRT = u8;
+pub type INDX = u16;
 pub type TSUB = (Vec<u8>, Vec<u8>);
 
 pub const Z_OFFSET: B_OFFSET = [0; ISQRT];

@@ -3,6 +3,8 @@ use std::env;
 
 fn main()
 {
+    println!("cargo:rerun-if-changed=utils/helper.cpp");
+
     env::set_var("CXX", "g++");
 
     let arch = env::consts::ARCH;

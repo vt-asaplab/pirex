@@ -125,6 +125,11 @@ fn init_hint_local()
 
     pkey.set_len((HSIZE * KSIZE) as u64).expect("error kset size");
 
+    disk = unsafe { MmapMut::map_mut(& pkey).expect("memory fail") };
+    data = disk.deref_mut();
+
+    OsRng.fill_bytes(& mut data);
+
     pkey.flush().expect("flush fail");
 
 

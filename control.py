@@ -6,11 +6,11 @@ import sys
 
 small_case = [
     "python3 config.py 64 18",
-    # "python3 config.py 64 20",
-    # "python3 config.py 1024 14",
-    # "python3 config.py 1024 16",
-    # "python3 config.py 4096 12",
-    # "python3 config.py 4096 14",
+    "python3 config.py 64 20",
+    "python3 config.py 1024 14",
+    "python3 config.py 1024 16",
+    "python3 config.py 4096 12",
+    "python3 config.py 4096 14",
 ]
 
 medium_case = [
@@ -46,7 +46,7 @@ find_port = "lsof -t -i :8111"
 def pirex_test(case):
 
     PID = subprocess.run(find_port, capture_output=True, shell=True, text=True).stdout.strip()
-    subprocess.run(f"kill -9 {PID}", shell=True, check=True)
+    if PID: subprocess.run(f"kill -9 {PID}", shell=True, check=True)
 
     for test in case:
         subprocess.run(test, shell=True, check=True)
@@ -57,13 +57,13 @@ def pirex_test(case):
         subprocess.run(pirex_client, shell=True, check=True)
 
         PID = subprocess.run(find_port, capture_output=True, shell=True, text=True).stdout.strip()
-        subprocess.run(f"kill -9 {PID}", shell=True, check=True)
+        if PID: subprocess.run(f"kill -9 {PID}", shell=True, check=True)
 
 
 def pirexx_test(case):
 
     PID = subprocess.run(find_port, capture_output=True, shell=True, text=True).stdout.strip()
-    subprocess.run(f"kill -9 {PID}", shell=True, check=True)
+    if PID: subprocess.run(f"kill -9 {PID}", shell=True, check=True)
 
     for test in case:
         subprocess.run(test, shell=True, check=True)
@@ -73,7 +73,7 @@ def pirexx_test(case):
         client = subprocess.run(pirexx_client, capture_output=True, shell=True, check=True)
 
         PID = subprocess.run(find_port, capture_output=True, shell=True, text=True).stdout.strip()
-        subprocess.run(f"kill -9 {PID}", shell=True, check=True)
+        if PID: subprocess.run(f"kill -9 {PID}", shell=True, check=True)
 
         client_out = client.stdout
         server_out, stderr = server.communicate() 

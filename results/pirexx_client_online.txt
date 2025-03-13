@@ -1,0 +1,102 @@
+
+Loading Table ...
+===== PIREX+ (Per Client Cost) Test DB: 2^18 entries 4 KB
+generate query delay 67.724µs
+xorpir request delay 102.568853ms (real measure)
+pirex bandwidth delay 90.189613ms (real measure)
+xorpir request delay 75.281687ms (real measure)
+pirex bandwidth delay 81.498138ms (real measure)
+recover parity delay 10.392µs
+client encrypt delay 4ms 
+client decrypt delay 8ms 
+recover parity delay 9.652µs
+client encrypt delay 4ms 
+client decrypt delay 8ms 
+recover dbitem delay 216.657µs
+oblivious write nbytes 67584
+oblivious write takes 13ms (in 40 Mbps)
+
+Loading Table ...
+===== PIREX+ (Per Client Cost) Test DB: 2^20 entries 4 KB
+generate query delay 88.972µs
+xorpir request delay 224.286772ms (real measure)
+pirex bandwidth delay 237.426943ms (real measure)
+xorpir request delay 177.689244ms (real measure)
+pirex bandwidth delay 221.168402ms (real measure)
+recover parity delay 22.291µs
+client encrypt delay 4ms 
+client decrypt delay 8ms 
+recover parity delay 8.473µs
+client encrypt delay 5ms 
+client decrypt delay 10ms 
+recover dbitem delay 220.145µs
+oblivious write nbytes 67584
+oblivious write takes 13ms (in 40 Mbps)
+
+Loading Table ...
+===== PIREX+ (Per Client Cost) Test DB: 2^14 entries 64 KB
+generate query delay 29.193µs
+xorpir request delay 285.691228ms (real measure)
+pirex bandwidth delay 255.811353ms (real measure)
+xorpir request delay 214.173853ms (real measure)
+pirex bandwidth delay 223.938154ms (real measure)
+recover parity delay 271.971µs
+client encrypt delay 75ms 
+client decrypt delay 136ms 
+recover parity delay 308.095µs
+client encrypt delay 77ms 
+client decrypt delay 141ms 
+recover dbitem delay 3.280564ms
+oblivious write nbytes 1081344
+oblivious write takes 216ms (in 40 Mbps)
+
+Loading Table ...
+===== PIREX+ (Per Client Cost) Test DB: 2^16 entries 64 KB
+generate query delay 40.539µs
+xorpir request delay 836.273913ms (real measure)
+pirex bandwidth delay 658.790462ms (real measure)
+xorpir request delay 479.101809ms (real measure)
+pirex bandwidth delay 507.798827ms (real measure)
+recover parity delay 287.787µs
+client encrypt delay 76ms 
+client decrypt delay 141ms 
+recover parity delay 241.544µs
+client encrypt delay 77ms 
+client decrypt delay 135ms 
+recover dbitem delay 3.287375ms
+oblivious write nbytes 1081344
+oblivious write takes 216ms (in 40 Mbps)
+
+Loading Table ...
+===== PIREX+ (Per Client Cost) Test DB: 2^12 entries 256 KB
+generate query delay 9.411µs
+xorpir request delay 751.471358ms (real measure)
+pirex bandwidth delay 941.79207ms (real measure)
+xorpir request delay 894.236815ms (real measure)
+pirex bandwidth delay 870.864723ms (real measure)
+recover parity delay 10.024778ms
+client encrypt delay 287ms 
+client decrypt delay 553ms 
+recover parity delay 11.64578ms
+client encrypt delay 285ms 
+client decrypt delay 558ms 
+recover dbitem delay 13.222189ms
+oblivious write nbytes 4325376
+oblivious write takes 865ms (in 40 Mbps)
+
+Loading Table ...
+===== PIREX+ (Per Client Cost) Test DB: 2^14 entries 256 KB
+generate query delay 26.617µs
+xorpir request delay 2.060512703s (real measure)
+pirex bandwidth delay 2.433458746s (real measure)
+xorpir request delay 1.850885348s (real measure)
+pirex bandwidth delay 2.052929443s (real measure)
+recover parity delay 10.313249ms
+client encrypt delay 297ms 
+client decrypt delay 547ms 
+recover parity delay 1.700195ms
+client encrypt delay 285ms 
+client decrypt delay 556ms 
+recover dbitem delay 13.222961ms
+oblivious write nbytes 4325376
+oblivious write takes 865ms (in 40 Mbps)

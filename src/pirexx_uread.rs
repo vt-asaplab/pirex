@@ -86,6 +86,8 @@ impl Client
         let kset = unsafe { MmapMut::map_mut(& key_file).expect("map kset fail") };
         let ppos = unsafe { MmapMut::map_mut(& pos_file).expect("map ppos fail") };
 
+        println!("client storage nbytes {:?}", kset.len() + ppos.len());
+
         Self {crypto, item, kset, ppos, wdet, wfile}
     }
 

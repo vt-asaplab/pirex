@@ -236,7 +236,7 @@ python3 control.py pirex small
 python3 control.py pirex medium
 ```
 
-All breakdown cost will be logged inside `results` folder:
+All breakdown costs will be logged inside `results` folder:
 - Total client computation delay
 - Total server computation delay
 - In/Out bandwidth cost as number of bytes
@@ -270,14 +270,39 @@ python3 control.py pirexx medium
 
 # Artifact Result
 
+
+Using the breakdown costs logged inside `results` folder:
+- We can now verify our main results based on the breakdown costs.
+- The breakdown costs include estimated delay in 40 Mbps network rate.
+- We expect slight difference per Figure due to hardware and network.
+
+
 ### Main Result 1: Constant Inbound Bandwidth
-- Figure 8
+
+The following breakdown costs contribute to Figure 8
+
+The main bottleneck for `pirex`:
+- total bandwidth nbytes (client <-> server)
+
+The main bottleneck for `pirex+`:
+- pirex response nbytes (from server)
+- xorpir response nbytes (from server)
+- oblivious write nbytes (from client)
 
 
-### Main Result 2: Low Client Online End-End Delay
-- Server computation delay + Client computation delay
-- Figure 10 + 11 + 12
+### Main Result 2: Low Client Online Delay
 
+The following breakdown costs contribute to Figure 10 + 11 + 12
+
+The main bottleneck for `pirex`:
+- server computation elaspe (from server)
+- total bandwidth elapse (client <-> server)
+
+The main bottleneck for `pirex+`:
+- xor parity comp delay (from server)
+- xorpir response delay (from server)
+- oblivious write delay (from client)
+- client decrypt delay (from client)
 
 
 ### Main Result 2: Low Client Storage Cost

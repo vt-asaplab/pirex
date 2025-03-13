@@ -230,7 +230,8 @@ extern "C"
             total += res;
         }
 
-        printf("decrypt averag delay %ld ms \n", total / THREAD_NUM);
+        printf("client decrypt delay %ldms \n", total / THREAD_NUM);
+        fflush(stdout);
     }
 
 
@@ -256,7 +257,8 @@ extern "C"
             total += res;
         }
 
-        printf("encrypt averag delay %ld ms \n", total / THREAD_NUM);
+        printf("client encrypt delay %ldms \n", total / THREAD_NUM);
+        fflush(stdout);
     }
 
 

@@ -33,11 +33,11 @@ fn handle_client(storage: & mut StoragePlus, hbuffer: & mut HintStorage, mut str
     stream.write_all(& acknown).unwrap();
     let (xor_t2, res_02) = hbuffer.parity(base_02);
 
-    println!("requests xorpir nbytes {:?}", PSIZE * 2);
-    println!("_requests should takes {:?} ms", PSIZE * 2 / 5000);
+    println!("xorpir request nbytes {:?}", PSIZE * 2);
+    println!("xorpir request takes {:?}ms (in 40 Mbps)", PSIZE * 2 / 5000);
     
-    println!("response xorpir nbytes {:?}", res_02.len() + res_01.len());
-    println!("_response should takes {:?} ms", (res_02.len() + res_01.len()) / 5000);
+    println!("xorpir response nbytes {:?}", res_02.len() + res_01.len());
+    println!("xorpir response takes {:?}ms (in 40 Mbps)", (res_02.len() + res_01.len()) / 5000);
     
     // normal query
 
@@ -62,11 +62,11 @@ fn handle_client(storage: & mut StoragePlus, hbuffer: & mut HintStorage, mut str
         t_sum += _t;
     }
 
-    println!("requests normal nbytes {:?}", total_length);
-    println!("_requests should takes {:?} ms", total_length / 5000);
+    println!("pirex request nbytes {:?}", total_length);
+    println!("pirex request takes {:?}ms (in 40 Mbps)", total_length / 5000);
     
-    println!("response normal nbytes {:?}", normal_resp);
-    println!("_response should takes {:?} ms", normal_resp / 5000);
+    println!("pirex response nbytes {:?}", normal_resp);
+    println!("pirex response takes {:?}ms (in 40 Mbps)", normal_resp / 5000);
     
 
     let start_1 = Instant::now();
@@ -82,7 +82,7 @@ fn handle_client(storage: & mut StoragePlus, hbuffer: & mut HintStorage, mut str
     println!("add dbitem comp delay {:?}", t_sum);
     println!("xor parity comp delay {:?}", xor_t2 + xor_t1);
     
-    println!("response xorpir delay {:?}", (finis_1 - start_1) + (finis_2 - start_2));
+    println!("xorpir response delay {:?} (real measure)", (finis_1 - start_1) + (finis_2 - start_2));
 }
 
 
@@ -122,7 +122,7 @@ fn main()
                 
                 if switch % 3 != 0
                 {
-                    println!("\n===== (Per Server Cost) Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);
+                    println!("\n===== PIREX+ (Per Server Cost) Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);
                     
                     handle_client(& mut storage, & mut hbuffer, stream);
                 }

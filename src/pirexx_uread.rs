@@ -191,7 +191,7 @@ impl Client
         stream.read_exact(& mut acknown).unwrap();
         let finis_2 = Instant::now();
         
-        println!("request xorpir delay {:?}", (finis_2 - start_2) + (finis_1 - start_1));
+        println!("xorpir request delay {:?} (real measure)", (finis_2 - start_2) + (finis_1 - start_1));
 
 
         let start_3 = Instant::now();
@@ -212,7 +212,7 @@ impl Client
         stream.read_exact(& mut new_1).unwrap();
 
         let finis_3 = Instant::now();
-        println!("normal b/width delay {:?}", finis_3 - start_3);
+        println!("pirex bandwidth delay {:?} (real measure)", finis_3 - start_3);
 
         stream.read_exact(& mut first_bitvec_result).unwrap();
         stream.write_all(& acknown).unwrap();
@@ -344,6 +344,9 @@ impl Client
         let write_data = [self.wdet.to_be_bytes().to_vec(), _enc_left, _enc_righ].concat();
         stream.write_all(& write_data).expect("oblivious write fail");
 
+        println!("oblivious write nbytes {:?}", ESIZE * 2);
+        println!("oblivious write takes {:?}ms (in 40 Mbps)", ESIZE * 2 / 5000);
+
 
         self.wdet = (((self.wdet + 1) as usize) % HSIZE) as u16;
         self.wfile.write_all(& self.wdet.to_be_bytes()).expect("next pos");
@@ -442,7 +445,7 @@ fn main()
 
     unsafe {load_table()}
 
-    println!("===== (Per Client Cost) Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);
+    println!("===== PIREX+ (Per Client Cost) Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);
 
     let mut client = Client::new();
 
@@ -453,7 +456,6 @@ fn main()
     {
         client.access(index);
     }
-
 
     unsafe {free_table()}
 }

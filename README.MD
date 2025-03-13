@@ -2,9 +2,9 @@
 
 # Artifact
 
-Paper title: **Client-Efficient Online-Offline Private Information Retrieval**
+Paper Title: **Client-Efficient Online-Offline Private Information Retrieval**
 
-Artifacts HotCRP Id: **#13**
+Artifacts HotCRP ID: **#13**
 
 Requested Badge: **Available**, **Functional**, or **Reproduced**
 
@@ -34,16 +34,12 @@ to the evaluators’ system security, data privacy, or ethical concerns.
 
 # Basic Requirements
 
-We describe the minimal hardware and software requirements for our artifact 
-and estimate the compute time and storage required to run the artifact.
-
 ### Hardware Requirements
-No specific hardware is required to execute this artifact.
 
-A laptop with `x86_64` bit architecture with at least 8-core CPU, 16GB RAM and 
-1TB storage can already satisfy our hardware requirements. 
+- A laptop with `x86_64` bit architecture with at least 8-core CPU, 16GB RAM and 
+1TB storage.
 
-In adddition, our artifact can automatically make use RAM resource (upto 1TB) 
+- Our artifact can automatically make use RAM resource (upto 1TB) 
 to accelerate the server performance.
 
 ### Network Expectation
@@ -51,8 +47,8 @@ to accelerate the server performance.
 Our artifact supports network connection between client and server through
 TCP stream, which can be adjusted for both remote and local testing.
 
-Regardless of the testing environment, we expect the network bandwidth will
-be around 40~45 Mbps to match our main results and claims.
+To make measurement match our main results and claims, we expect the 
+network bandwidth will be around 40~45 Mbps.
 
 
 ### Software Requirements
@@ -63,23 +59,17 @@ already been incorporated into the current artifact.
 
 ### Estimated Time and Storage Consumption
 
-This artifact contains the implementation of two schemes Pirex/Pirex+
-Each scheme has two phases to be evaluated: (1) Offline, (2) Online.
+This artifact contains the implementation of two schemes Pirex and Pirex+.
+Each scheme has two phases to be evaluated: 
+- (1) Offline: can take about 01 human days per scheme for full evaluation.
+- (2) Online: can take about 05 human hours per scheme for full evaluation.
 
-The evaluation of the offline phase per scheme can take about 01 human days.
-
-The evaluation of the online phase per scheme can take about 05 human hours.
-
-Since the offline phase only affect the correctness of our scheme, 
+Since an offline phase in our schemes is just an one-time preprocessing,
 we have provided instructions so that the offline phase can be skipped
-but still allow the full efficiency evaluation of the online phase.
+but still allow the full evaluation of the online phase in our schemes.
 
 The total required storage size for full evaluation is under 1TB 
 (max database setting in our schemes).
-
-We recommend running the first 04 test cases of our artifact, which
-only consist 04 online phases for each scheme, and only take upto 02
-human hours with 100GB storage in corresponding.
 
 <br/>
 
@@ -186,7 +176,8 @@ Our artifact divide blocksize to multiple chunks of 64 bytes. Thus:
 
 # Artifact Evaluation
 
-In this section, we include all the steps required to evaluate our artifact's functionality and validate our paper's key results and claims.
+In this section, we include all the steps required to evaluate our artifact's 
+functionality and validate our paper's key results and claims.
 
 ### Main Results and Claims
 - Constant client inbound bandwidth cost (`pirex`, `pirex+`)
@@ -204,7 +195,7 @@ Under 03 types of blocksize
 - 64KiB (`1024` chunks of 64 bytes)
 - 256KiB (`4096` chunks of 64 bytes)
 
-With 03 range scale (pow of two)
+With 03 exponent range (base 2)
 - [`18`, `20`, `22`, `24`, `26`, `28`]
 - [`14`, `16`, `18`, `20`, `22`, `24`]
 - [`12`, `14`, `16`, `18`, `20`, `22`]
@@ -223,9 +214,12 @@ directly measure breakdown cost of the online phase.
 
 ### Experiment Procedure
 
-We recommend start with `small` then `medium` testcase.
+We recommend start with `small` then `medium` testcase,
+since these cases only take upto 02 human hours with 
+100GB disk space for storage in corresponding.
+
 We will first need to randomize the client and server
-data structure to simulate (without correctness) using 
+data structure to simulate for all online phase using 
 `src/helper.rs`. We can run a helper code as follow:
 ```
 python3 config.py 64 24
@@ -251,8 +245,8 @@ All breakdown cost will be logged inside `results` folder:
 
 Since `large` testcase can consume 1TB of storage disk 
 to randomly create a database for testing, we recommend
-checking your storage space first. If everything is ok,
-run as follow to setup data structure for `large` case:
+checking your storage space first. If there is no conflict,
+run as follow to setup data structure for the `large` cases:
 
 ```
 python3 config.py 64 28

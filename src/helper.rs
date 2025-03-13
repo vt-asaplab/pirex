@@ -4,14 +4,14 @@
 use std::fs::File;
 use std::fs::OpenOptions;
 use std::io::Write;
-// use std::ops::DerefMut;
+use std::ops::DerefMut;
 use std::time::Duration;
 use std::time::Instant;
 use rand::Rng;
 use rand::RngCore;
 use rand::rngs::OsRng;
 use memmap::Mmap;
-// use memmap::MmapMut;
+use memmap::MmapMut;
 
 mod libs;
 use libs::*;
@@ -108,6 +108,11 @@ fn init_hint_local()
         .open("hint").expect("init hint fail");
 
     pfile.set_len((HSIZE * BSIZE) as u64).expect("error hint size");
+
+    let mut disk = unsafe { MmapMut::map_mut(& pfile).expect("memory fail") };
+    let mut data = disk.deref_mut();
+
+    OsRng.fill_bytes(& mut data);
 
     pfile.flush().expect("flush fail");
 

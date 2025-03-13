@@ -86,6 +86,8 @@ impl Client
         self.crypto.os_random(& mut rset);
 
         let start = Instant::now();
+
+        println!("stop here");
         
         let (par0, par1, zeta, _) = self.crypto.gen_ppr(pk);
         let mut sset = self.crypto.key_set(key);
@@ -232,8 +234,8 @@ fn main()
         .append(true)
         .open("results/pirex_client_online.txt").unwrap();
 
-    println!("Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);
-    file.write_all(format!("Test DB: 2^{:?} entries {:?} KB \n", LSIZE * 2, BSIZE / 1024).as_bytes()).unwrap();
+    println!("\n===== PIREX - Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);
+    file.write_all(format!("\n===== PIREX - Test DB: 2^{:?} entries {:?} KB \n", LSIZE * 2, BSIZE / 1024).as_bytes()).unwrap();
 
     for _ in 0 .. n_test
     {

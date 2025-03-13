@@ -72,7 +72,7 @@ fn main()
     
     let mut storage = Storage::new();
 
-    println!("Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);
+    println!("\n===== PIREX - Test DB: 2^{:?} entries {:?} KB", LSIZE * 2, BSIZE / 1024);
 
     let n_test = 20;
     let mut t_test = 0;
@@ -97,10 +97,10 @@ fn main()
                         .append(true)
                         .open("results/pirex_server_online.txt").unwrap();
     
-                    file.write_all(format!("Test DB: 2^{:?} entries {:?} KB \n", LSIZE * 2, BSIZE / 1024).as_bytes()).unwrap();
+                    file.write_all(format!("\n===== PIREX - Test DB: 2^{:?} entries {:?} KB \n", LSIZE * 2, BSIZE / 1024).as_bytes()).unwrap();
     
                     file.write_all(format!("server computation elapse {:?} \n", t_comp / n_test).as_bytes()).unwrap();
-                    file.write_all(format!("server response elapse {:?} \n", t_band / n_test).as_bytes()).unwrap();
+                    file.write_all(format!("server response elapse {:?} (real measure) \n", t_band / n_test).as_bytes()).unwrap();
                 }
             },
 

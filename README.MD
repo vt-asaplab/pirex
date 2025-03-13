@@ -10,7 +10,10 @@ Requested Badge: **Available**, **Functional**, or **Reproduced**
 
 Note: This project was last updated in: March-11-2025
 
-Warning: This is an academic proof-of-concept prototype and has not received careful code review. This implementation is NOT ready for production use.
+WARNING: 
+- This artifact is an academic proof-of-concept prototype. 
+- This artifact has NOT received careful code review. 
+- This artifact is NOT ready for production use.
 
 <br/>
 

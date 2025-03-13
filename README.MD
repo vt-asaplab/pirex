@@ -38,17 +38,15 @@ to the evaluators’ system security, data privacy, or ethical concerns.
 
 - A laptop with `x86_64` bit architecture with at least 8-core CPU, 16GB RAM and 
 1TB storage.
-
 - Our artifact can automatically make use RAM resource (upto 1TB) 
 to accelerate the server performance.
 
 ### Network Expectation
 
-Our artifact supports network connection between client and server through
+- Our artifact supports network connection between client and server through
 TCP stream, which can be adjusted for both remote and local testing.
-
-To make measurement match our main results and claims, we expect the 
-network bandwidth will be around 40~45 Mbps.
+- To match with our main results and claims, we expect the network bandwidth 
+to be around 40~45 Mbps.
 
 
 ### Software Requirements
@@ -306,7 +304,10 @@ The main bottleneck for `pirex+`:
 
 
 ### Main Result 2: Low Client Storage Cost
-- Storage Cost (Figure 14)
+
+The following breakdown costs contribute to Figure 14
+
+- client storage nbytes (from client)
 
 
 

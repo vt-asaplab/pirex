@@ -15,7 +15,7 @@ const size_t chunk_size = sizeof(__m256i); // 256 bits = 64 bytes
 extern "C" {
     void xor_byte_arrays(uint8_t *a, uint8_t *const b, size_t size)
     {        
-        #pragma omp parallel for num_threads(2)
+        #pragma omp parallel for num_threads(12)
         for (size_t i = 0; i < size / chunk_size; i++)
         {
             __m256i x1 = _mm256_loadu_si256((__m256i*) &a[i * chunk_size]);

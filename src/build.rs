@@ -16,6 +16,7 @@ fn main()
             .flag("-Wno-unused-result")
             .flag("-fopenmp")
             .flag("-mavx2")
+            .flag("-no-pie")
             .cpp(true)
             .file("utils/helper.cpp")
             .compile("helper.a");

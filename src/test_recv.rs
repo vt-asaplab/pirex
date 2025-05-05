@@ -6,7 +6,7 @@ use std::net::TcpListener;
 
 fn main()
 {
-    let address = "128.173.236.241:8111";
+    let address = "127.0.0.1:8111";
 
     let listener = TcpListener::bind(address).expect("error binding");
 
@@ -15,7 +15,7 @@ fn main()
             
             Ok((mut stream, _)) => 
             {
-                let mut buffer = vec![0u8; 4096];
+                let mut buffer = vec![0u8; 22528];
                 stream.read_exact(& mut buffer).unwrap();
                 stream.write_all(& buffer).unwrap();
             },

@@ -7,15 +7,15 @@ use std::time::Duration;
 
 fn main()
 {
-    let address = "128.173.236.241:8111";
+    let address = "127.0.0.1:8111";
     let mut stream = TcpStream::connect(address).expect("stream fail");
 
 
     let mut total = Duration::from_secs(0);
 
-    for i in 0 .. 1000
+    for i in 0 .. 1
     {
-        let inp = vec![0u8; 64 * 64 * 4 * 2 * 33];
+        let inp = vec![77u8; 22528];
         let mut ack = [0u8; 1];
 
         println!("run test {}", i);

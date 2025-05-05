@@ -196,23 +196,24 @@ impl Client
         println!("xorpir request delay {:?} (real measure)", (finis_2 - start_2) + (finis_1 - start_1));
 
 
-        let start_3 = Instant::now();
-
         for i in 0 .. 4
         {
             let mut request_buffer = vec![0u8; 0];
             let length = (list[i].len() as u32).to_be_bytes();
             request_buffer.extend_from_slice(& length);
             request_buffer.extend_from_slice(list[i]);
-
+            
             stream.write_all(& request_buffer).unwrap();
+            stream.flush().unwrap();
         }
         
+        stream.read_exact(& mut acknown).unwrap();
+        
+        let start_3 = Instant::now();
         stream.read_exact(& mut dat_0).unwrap();
         stream.read_exact(& mut dat_1).unwrap();
         stream.read_exact(& mut new_0).unwrap();
         stream.read_exact(& mut new_1).unwrap();
-
         let finis_3 = Instant::now();
         println!("pirex bandwidth delay {:?} (real measure)", finis_3 - start_3);
 

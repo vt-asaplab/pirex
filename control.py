@@ -68,10 +68,12 @@ def pirexx_test(case):
     for test in case:
         subprocess.run(test, shell=True, check=True)
         subprocess.run(build, shell=True, check=True)
-        
+        subprocess.run(prep, shell=True, check=True)
+
         server = subprocess.Popen(pirexx_server, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         client = subprocess.run(pirexx_client, capture_output=True, shell=True, check=True)
 
+        time.sleep(5)
         PID = subprocess.run(find_port, capture_output=True, shell=True, text=True).stdout.strip()
         if PID: subprocess.run(f"kill -9 {PID}", shell=True, check=True)
 

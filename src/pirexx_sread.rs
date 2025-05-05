@@ -18,26 +18,21 @@ fn handle_client(storage: & mut StoragePlus, hbuffer: & mut HintStorage, mut str
     let mut header = [0u8; 4];
     let mut buffer = vec![0u8; IV_SIZE * 2];
     let mut acknown = [0u8; 1];
+    let mut pirex_result = vec![0u8; 0];
 
     // first xor
 
     let mut base_01 = vec![0u8; PSIZE];
     stream.read_exact(& mut base_01).expect("request pir fail");
     stream.write_all(& acknown).unwrap();
-    let (xor_t1, res_01) = hbuffer.parity(base_01);
+    stream.flush().unwrap();
     
     // second xor
-
+    
     let mut base_02 = vec![0u8; PSIZE];
     stream.read_exact(& mut base_02).expect("request pir fail");
     stream.write_all(& acknown).unwrap();
-    let (xor_t2, res_02) = hbuffer.parity(base_02);
-
-    println!("xorpir request nbytes {:?}", PSIZE * 2);
-    println!("xorpir request takes {:?}ms (in 40 Mbps)", PSIZE * 2 / 5000);
-    
-    println!("xorpir response nbytes {:?}", res_02.len() + res_01.len());
-    println!("xorpir response takes {:?}ms (in 40 Mbps)", (res_02.len() + res_01.len()) / 5000);
+    stream.flush().unwrap();
     
     // normal query
 
@@ -55,19 +50,30 @@ fn handle_client(storage: & mut StoragePlus, hbuffer: & mut HintStorage, mut str
         total_length += length;
 
         let (parity, _t) = storage.parity(& buffer[.. length], i & 1 == 1);
-        stream.write_all(& parity).unwrap();
+        pirex_result.extend_from_slice(& parity);
 
         normal_resp += parity.len();
-
         t_sum += _t;
     }
+
+    stream.write_all(& acknown).unwrap();
+    stream.write_all(& pirex_result).unwrap();
 
     println!("pirex request nbytes {:?}", total_length);
     println!("pirex request takes {:?}ms (in 40 Mbps)", total_length / 5000);
     
     println!("pirex response nbytes {:?}", normal_resp);
     println!("pirex response takes {:?}ms (in 40 Mbps)", normal_resp / 5000);
+
+    let (xor_t1, res_01) = hbuffer.parity(base_01);
+    let (xor_t2, res_02) = hbuffer.parity(base_02);
+
+    println!("xorpir request nbytes {:?}", PSIZE * 2);
+    println!("xorpir request takes {:?}ms (in 40 Mbps)", PSIZE * 2 / 5000);
     
+    println!("xorpir response nbytes {:?}", res_02.len() + res_01.len());
+    println!("xorpir response takes {:?}ms (in 40 Mbps)", (res_02.len() + res_01.len()) / 5000);
+
 
     let start_1 = Instant::now();
     stream.write_all(& res_01).unwrap();

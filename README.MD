@@ -1,10 +1,8 @@
 
 
-# Artifact
+# PIREX: Client-Efficient Online-Offline Private Information Retrieval (PETS 2025)
 
-Paper Title: **Client-Efficient Online-Offline Private Information Retrieval**
-
-Full Implementation for our paper PIREX
+This is the full implementation for our [PIREX paper](https://petsymposium.org/popets/2025/popets-2025-0095.php)
 
 WARNING: 
 - This artifact is an academic proof-of-concept prototype. 
@@ -12,6 +10,21 @@ WARNING:
 - This artifact is NOT ready for production use.
 
 <br/>
+
+
+# Citing
+
+If the code is found useful, we would be appreciated if our paper can be cited with the following bibtex format:
+
+```
+@article{nguyen2025client,
+  title={Client-efficient online-offline private information retrieval},
+  author={Nguyen, Hoang-Dung and Guajardo, Jorge and Hoang, Thang},
+  journal={Proceedings on Privacy Enhancing Technologies},
+  year={2025}
+}
+```
+
 
 
 # Description

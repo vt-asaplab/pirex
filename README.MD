@@ -4,11 +4,7 @@
 
 Paper Title: **Client-Efficient Online-Offline Private Information Retrieval**
 
-Artifacts HotCRP ID: **#13**
-
-Requested Badge: **Available**, **Functional**, or **Reproduced**
-
-Note: This project was last updated in: March-11-2025
+Full Implementation for our paper PIREX
 
 WARNING: 
 - This artifact is an academic proof-of-concept prototype. 

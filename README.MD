@@ -30,7 +30,7 @@ If the code is found useful, we would be appreciated if our paper can be cited w
 <br/>
 
 
-# Description
+# Descriptions
 
 This artifact contains source code to our two proposed scheme Pirex and Pirex+
 
@@ -318,7 +318,7 @@ The main bottleneck for `pirex+`:
 - client decrypt delay (from client)
 
 
-### Main Result 2: Low Client Storage Cost
+### Main Result 3: Low Client Storage Cost
 
 The following breakdown costs contribute to Figure 14
 
@@ -329,7 +329,7 @@ The following breakdown costs contribute to Figure 14
 <br/>
 
 
-# More Self Evaluation
+# More Self-Evaluation
 
 ### OFFLINE PHASE
 

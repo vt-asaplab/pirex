@@ -18,7 +18,7 @@ If the code is found useful, we would be appreciated if our paper can be cited w
 
 ```
 @article{nguyen2025client,
-  title={Client-efficient online-offline private information retrieval},
+  title={{Client-Efficient Online-Offline Private Information Retrieval}},
   author={Nguyen, Hoang-Dung and Guajardo, Jorge and Hoang, Thang},
   journal={Proceedings on Privacy Enhancing Technologies},
   year={2025}

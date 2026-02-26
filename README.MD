@@ -2,12 +2,14 @@
 
 # PIREX: Client-Efficient Online-Offline Private Information Retrieval (PETS 2025)
 
-This is the full implementation for our [PIREX paper](https://petsymposium.org/popets/2025/popets-2025-0095.php)
+This is the full implementation for our paper [PIREX](https://petsymposium.org/popets/2025/popets-2025-0095.php)
+
+The artifact has been awarded: Available, Functional, Reproduced
+
+![alt text](https://github.com/vt-asaplab/pirex/blob/main/badges.png "PETS Badges")
 
 WARNING: 
-- This artifact is an academic proof-of-concept prototype. 
-- This artifact has NOT received careful code review. 
-- This artifact is NOT ready for production use.
+- This artifact is a research prototype and NOT ready for production use.
 
 <br/>
 

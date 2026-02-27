@@ -2,7 +2,7 @@
 
 # PIREX: Client-Efficient Online-Offline Private Information Retrieval (PETS 2025)
 
-This is the full implementation for our paper [PIREX](https://petsymposium.org/popets/2025/popets-2025-0095.php)
+This is the full implementation for our paper [PIREX](https://petsymposium.org/popets/2025/popets-2025-0095.php) (accepted into the 25th Privacy Enhancing Technologies Symposium)
 
 The artifact has been awarded: Available, Functional, Reproduced
 

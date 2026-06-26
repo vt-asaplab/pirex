@@ -9,6 +9,7 @@ use std::ops::DerefMut;
 use std::time::Duration;
 use std::time::Instant;
 use memmap::MmapMut;
+use memmap::Mmap;
 
 mod libs;
 use libs::*;
@@ -244,12 +245,12 @@ impl Client
 
         println!("recover parity delay {:?}", finis - start);
 
-        unsafe {
-            set_key_and_bid(KEY.as_ptr(), KEY.len(), _bid as u32);
-            set_input_encryption(_test.as_ptr(), _test.len());
-            thread_encrypt();
-            get_output_encryption(res.as_mut_ptr(), res.len());
-        }
+        // unsafe {
+        //     set_key_and_bid(KEY.as_ptr(), KEY.len(), _bid as u32);
+        //     set_input_encryption(_test.as_ptr(), _test.len());
+        //     thread_encrypt();
+        //     get_output_encryption(res.as_mut_ptr(), res.len());
+        // }
 
         unsafe {
             set_key_and_bid(KEY.as_ptr(), KEY.len(), _bid as u32);
@@ -319,6 +320,13 @@ impl Client
 
         let view = format!("{:?}", data_item);
         self.item.write_all(view.as_bytes()).unwrap();
+
+        // db_read-style double-check: retrieved data_item vs the real DB entry
+        let dbfile = File::open("data").expect("open data fail");
+        let db = unsafe { Mmap::map(& dbfile).expect("map fail") };
+        let truth = & db[(x as usize) * BSIZE .. (x as usize + 1) * BSIZE];
+        println!("RETRIEVE CHECK: data_item {} DB[{}]",
+                 if & data_item[..] == truth { "== CORRECT" } else { "!= WRONG" }, x);
     }
 
     pub fn rewrite(& mut self, _rewrite_parity: Vec<u8>, _counter: usize, _refresh_parity: Vec<u8>, _hint_index: usize)
@@ -328,22 +336,22 @@ impl Client
         let mut _enc_left = vec![0u8; ESIZE];
         let mut _enc_righ = vec![0u8; ESIZE];
 
-        // unsafe {
-        //     set_key_and_bid(KEY.as_ptr(), KEY.len(), counter as u32);
-        //     set_input_encryption(rewrite_parity.as_ptr(), rewrite_parity.len());
-        //     thread_encrypt();
-        //     get_output_encryption(enc_left.as_mut_ptr(), enc_left.len());
-        // }
+        // encrypt the moved-back parity for Pleft[counter] with bid = counter (its hint id)
+        unsafe {
+            set_key_and_bid(KEY.as_ptr(), KEY.len(), _counter as u32);
+            set_input_encryption(_rewrite_parity.as_ptr(), _rewrite_parity.len());
+            thread_encrypt();
+            get_output_encryption(_enc_left.as_mut_ptr(), _enc_left.len());
+        }
 
-        // // need additional code review
+        // encrypt the new refresh parity for Pright with bid = hint_index (the consumed hint id)
+        unsafe {
+            set_key_and_bid(KEY.as_ptr(), KEY.len(), _hint_index as u32);
+            set_input_encryption(_refresh_parity.as_ptr(), _refresh_parity.len());
+            thread_encrypt();
+            get_output_encryption(_enc_righ.as_mut_ptr(), _enc_righ.len());
+        }
 
-        // unsafe {
-        //     set_key_and_bid(KEY.as_ptr(), KEY.len(), hint_index as u32);
-        //     set_input_encryption(refresh_parity.as_ptr(), refresh_parity.len());
-        //     thread_encrypt();
-        //     get_output_encryption(enc_righ.as_mut_ptr(), enc_righ.len());
-        // }
-        
         let write_data = [self.wdet.to_be_bytes().to_vec(), _enc_left, _enc_righ].concat();
         stream.write_all(& write_data).expect("oblivious write fail");
 
@@ -453,10 +461,11 @@ fn main()
     let mut client = Client::new();
 
     let index = (12482 % NSIZE) as INDX;
-    let n_test = 1;
+    let n_test = 3;
 
-    for _ in 0 .. n_test
+    for i in 0 .. n_test
     {
+        println!("===== Test {:?} =====", i);
         client.access(index);
     }
 

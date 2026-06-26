@@ -11,13 +11,23 @@ use memmap::MmapMut;
 mod libs;
 use libs::*;
 
-mod elgamal;
-use elgamal::*;
+pub const KEY : [u8; 16] = [0x77; 16];
 
-use crate::elgamal::parallel_encrypt;
+extern "C"
+{
+    fn set_key_and_bid(input: *const u8, size: usize, bid: u32);
+    fn set_input_encryption(input: *const u8, size: usize);
+    fn get_output_encryption(input: *mut u8, size: usize);
+    fn thread_encrypt();
+    fn load_table();
+    fn free_table();
+}
 
 fn main()
 {
+    println!("\nLoading Table ...");
+    unsafe {load_table()}
+
     let mut stream = TcpStream::connect(SERVER_ADDRESS).expect("stream fail");
     let crypto = Crypto::new();
 
@@ -38,12 +48,6 @@ fn main()
     let mut disk = unsafe { MmapMut::map_mut(& fs_par).expect("map fail") };
     let hint = disk.deref_mut();
 
-    let mut ahe_secret = [0u8; 32];
-
-    crypto.os_random(& mut ahe_secret);
-    
-    let ahe = AHE::new(ahe_secret);
-
     let start = Instant::now();
 
     crypto.os_random(& mut kset);
@@ -53,8 +57,14 @@ fn main()
 
     for (iter, block) in hint.chunks(BSIZE).enumerate()
     {
-        let (enc, _time) = parallel_encrypt(&ahe, iter, & block);
-    
+        let mut enc = vec![0u8; ESIZE];
+        unsafe {
+            set_key_and_bid(KEY.as_ptr(), KEY.len(), iter as u32);
+            set_input_encryption(block.as_ptr(), block.len());   // BSIZE in
+            thread_encrypt();
+            get_output_encryption(enc.as_mut_ptr(), enc.len());  // ESIZE out
+        }
+
         stream.write_all(& enc).expect("send parity fail");
         
         println!("finish {:?}", iter);
@@ -80,12 +90,9 @@ fn main()
 
     fs_pos.write_all(& ppos).expect("write ppos fail");
 
-
-    let mut elgamal_key = File::create("ekey").expect("init ekey fail");
-
-    elgamal_key.write_all(& ahe_secret).expect("save elgamal keys");
-
     let mut wdet = File::create("detw").expect("init detw fail");
 
     wdet.write_all(& (0 as u16).to_be_bytes()).expect("save detw");
+
+    unsafe {free_table()}
 }

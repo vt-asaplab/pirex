@@ -922,6 +922,9 @@ int secp256k1_elgamal_decryption(const secp256k1_context* ctx, struct HashMap *t
 
     secp256k1_ecmult_gen(&ctx->ecmult_gen_ctx, &enc_jacobi, &scalar_blind);
     secp256k1_gej_add_ge(&enc_jacobi, &enc_jacobi, &enc_affine);
+
+    if (secp256k1_gej_is_infinity(&enc_jacobi)) { memset(output, 0, outputlen); return 1; } /* m == 0: identity is not in the DLP table */
+
     secp256k1_gej_hash_key(enc_jacobi, &hash_key);
     
     for (i = 0; i <= GIANT_STEP; i++)

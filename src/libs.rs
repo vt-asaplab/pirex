@@ -19,21 +19,21 @@ use bitvec::prelude::*;
 
 pub const SERVER_ADDRESS: &str = "127.0.0.1:8111";
 
-pub const BUNIT: usize = 4096; // one block has __ chunks
+pub const BUNIT: usize = 16; // one block has __ chunks
 pub const USIZE: usize = 64; // one chunk has 64 bytes
 pub const BSIZE: usize = BUNIT * USIZE; // block size
 
-pub const NSIZE: usize = 4194304; // dbase size
-pub const LSIZE: usize = 11; // logarithm sqrt
+pub const NSIZE: usize = 65536; // dbase size
+pub const LSIZE: usize = 8; // logarithm sqrt
 pub const SSIZE: usize = NSIZE >> LSIZE; // sqrt
-pub const HSIZE: usize = SSIZE * 22; // hint size
+pub const HSIZE: usize = SSIZE * 16; // hint size
 
-pub const FRONT: u8 = 0b111;
+pub const FRONT: u8 = 0b11111111;
 pub const BFLAG: INDX = (SSIZE - 1) as INDX;
 
 pub const KSIZE: usize = 0016; // one keyset has __ bytes
-pub const ISIZE: usize = 0004; // one indice has __ bytes
-pub const ISQRT: usize = 0002; // one offset has __ bytes
+pub const ISIZE: usize = 0002; // one indice has __ bytes
+pub const ISQRT: usize = 0001; // one offset has __ bytes
 
 pub const IV_SIZE: usize = SSIZE * ISIZE;
 pub const IV_SQRT: usize = SSIZE * ISQRT;
@@ -48,8 +48,8 @@ pub type B_UCHUNK = [u8; USIZE]; // one chunk as byte array
 
 pub type LANE = u8x64;
 pub type SIMD = Simd<B_UCHUNK>;
-pub type SQRT = u16;
-pub type INDX = u32;
+pub type SQRT = u8;
+pub type INDX = u16;
 pub type TSUB = (Vec<u8>, Vec<u8>);
 
 pub const Z_OFFSET: B_OFFSET = [0; ISQRT];
@@ -461,11 +461,13 @@ impl HintStorage {
     }
 
     pub fn parity(& mut self, arr: Vec<u8>) -> (Duration, Vec<u8>)
-    {        
+    {
+        self.xor_regis = vec![0u8; ESIZE];   // reset so each XOR-PIR response is independent (no carry-over across calls/connections)
+
         let bitstr = BitVec::<_, Msb0>::from_vec(arr.to_vec());
 
         let mut t_comp = Duration::from_secs(0);
-        
+
         for i in 0 .. bitstr.len()
         {
             if bitstr[i]

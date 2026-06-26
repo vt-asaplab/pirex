@@ -360,3 +360,11 @@ The following breakdown costs contribute to Figure 14
 ```
 ./target/release/pirex_uread
 ```
+
+
+### SMOKE TEST
+
+```
+python3 config.py 16 16
+cargo build --release
+```

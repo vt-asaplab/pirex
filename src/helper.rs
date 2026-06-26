@@ -53,20 +53,10 @@ fn init_data()
 
     file.set_len((BSIZE * NSIZE) as u64).expect("error file size");
 
-    // let mut disk = unsafe { MmapMut::map_mut(&file).expect("memory fail") };
-    // let data = disk.deref_mut();
+    let mut disk = unsafe { MmapMut::map_mut(&file).expect("memory fail") };
+    let data = disk.deref_mut();
 
-    // let mut rando = [0u8, 1];
-    // OsRng.fill_bytes(& mut rando);
-
-    // let batch = BUNIT * NSIZE;
-
-    // for i in 0 .. USIZE
-    // {
-    //     let pos = & mut data[i * batch .. (i + 1) * batch];
-    //     pos.fill_with(|| rando[0]);
-    //     println!("init batch {}", i);
-    // }
+    rand::thread_rng().fill_bytes(data);   // random DB (thread_rng = ChaCha PRNG, fast: ~tens of ms for 64MB)
 
     file.flush().expect("flush fail");
 }
